@@ -1,0 +1,126 @@
+/*Default body styling*/
+.body{
+    background: linear-gradient(#FCF4ED, #fcf4ed6a);
+    color: black;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+/* Navigation bar responsive layout*/
+.my_container{
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 100px;
+    position: relative;
+}
+.navigation_items{
+    justify-content:right
+}
+.navbar-nav li{
+    margin: auto 20px;
+}
+
+.nav_list a, button{
+
+    float: right;
+}
+/*Main section responsive layout*/
+main{
+    min-height: 88vh;
+}
+
+/*Footer section responsive layout*/
+.small_footer{
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    margin: auto 0;
+}
+
+/*Login page: hero section*/
+.login_hero{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+.content{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 10px;
+    max-width: 40%;
+    min-width: 25%;
+}
+.header{
+    text-align: left;
+    padding: 1rem;
+}
+.header h1{
+    font-weight: 700;
+}
+.header p{
+   margin: 35px auto ;
+}
+.buttons{
+    display: inline;
+}
+.buttons button{
+    margin: 5px;
+}
+.image{
+    display: flex;
+    justify-content: center;
+}
+.image img{
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/*Responsive media queries*/
+
+@media (min-width: 1025px){
+    .image img{
+        width: 600px;
+    }
+}
+@media (max-width: 1024px){
+    .image img{
+        width: 400px;
+    }
+}
+@media (max-width: 768px){
+    .navbar-nav li{
+        margin: auto 0;
+    }
+    .image img{
+        width: 300px;
+    }
+    .content{
+        max-width: 75%;
+    }
+    .content h1, p{
+        text-align: center;
+    }
+    .buttons{
+        display: flex;
+        justify-content: center;
+    }
+    
+}
+@media (max-width: 425px){
+    .my_container{
+        margin: auto 10px;
+    }
+    .small_footer{
+        font-size: x-small;
+    }
+}
