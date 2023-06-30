@@ -25,18 +25,15 @@
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse navigation_items" id="navbarNav">
-                <!--
-                    TODO: If user is logged in, display these list items
-                -->
                 <ul class="navbar-nav nav_list">
                 <li class="nav-item">
-                    <a class="nav-link"  href="/">Overview</a>
+                    <a class="nav-link"  href="#">Overview</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">My beans</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/brewing">Brewing</a>
+                    <a class="nav-link" href="#">Brewing</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link">Contact</a>
@@ -45,31 +42,38 @@
                     <button type="button" class="btn btn-dark">My profile</button>
                 </li>
                 </ul>
-            
-                <!--TODO: If user not logged in, display these list items
-                <ul class="navbar-nav nav_list">
-                    <li class="nav-item">
-                        <a class="nav-link">Contact</a>
-                    </li>
-                    <li class="nav-item">
-                        <button type="button" class="btn btn-dark">Register</button>
-                    </li>
-                </ul> -->
             </div>
         </div>
     </nav>
-    <!--
-        PLACEHOLDER FOR FLASHED MESSAGES FUNCTIONALITY IN JINJA
-    {% if get_flashed_messages() %}
-    <header>
-        <div class="alert alert-primary mb-0 text-center" role="alert">
-            {{ get_flashed_messages() | join(" ") }}
-        </div>
-    </header>
-    {% endif %}
-    -->
     <main class="my_container" id="dashboard_container">
-        {% block main %}{% endblock %}
+    <div class="header">
+        <h1>CONTACT</h1>
+        <p>This website was designed as the final assignment for the CS50 course . Feel free to get in touch for any other web design projects</p>
+    </div>
+    <div class="contact_content">
+        <div class="image" style="justify-self: left;">
+            <img src="./static/images/coffee-bean.png" alt="temporary">
+        </div>
+        <div class="contact">
+            <div class="contact_item">
+                <div class="contact_icon">
+                    <svg width="42" height="44" viewBox="0 0 42 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M36 0C39.3137 0 42 1.96995 42 4.4V39.6C42 42.0301 39.3137 44 36 44H6C2.68629 44 0 42.0301 0 39.6V4.4C0 1.96995 2.68629 0 6 0H36ZM37.8 33.8536H4.2V39.6C4.2 40.329 5.00589 40.92 6 40.92H36C36.9941 40.92 37.8 40.329 37.8 39.6V33.8536ZM21 35.2C22.6569 35.2 24 36.185 24 37.4C24 38.615 22.6569 39.6 21 39.6C19.3431 39.6 18 38.615 18 37.4C18 36.185 19.3431 35.2 21 35.2ZM36 3.08H6C5.00589 3.08 4.2 3.67098 4.2 4.4V30.7736H37.8V4.4C37.8 3.67098 36.9941 3.08 36 3.08Z" fill="#555555"/>
+                    </svg>                        
+                </div>
+                <div class="contact_text">
+
+                </div>
+            </div>
+            <div class="contact_item">
+
+            </div>
+            <div class="contact_item">
+
+            </div>
+        </div>
+    </div>
+
     </main>
 
     <footer class="small_footer">

@@ -28,10 +28,9 @@ def after_request(response):
     return response
 
 @app.route("/")
-@login_required
+##@login_required##
 def index():
-   
-    return 0
+    return render_template("index.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -39,3 +38,8 @@ def login():
         ...
     else:
         return render_template("login.html")
+        
+@app.route("/brewing")
+##@login_required
+def brewing():
+    return render_template("brewing.html")

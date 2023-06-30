@@ -1,12 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    This will be the overview page.
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main%}
+    <div class="dashboard">
+        <div class="header">
+            <h1>Dashboard</h1>
+            <p style="max-width: 50%; margin-left: 0;">An overview of your stock of beans, the amount of coffees you drank and your favourite brewing methods.</p>
+        </div>
+        <div class="graphical_content">
+            <div class="graph">
+                <figure class="figure">
+                    <img src="../static/images/coffee-bean.png" class="figure-img img-fluid rounded border border-black" alt="temporary placeholder">
+                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                </figure>
+            </div>
+            <div class="graph">
+                <figure class="figure">
+                    <img src="../static/images/coffee-bean.png" class="figure-img img-fluid rounded border border-black" alt="temporary placeholder">
+                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                </figure>
+            </div>
+            <div class="graph">
+                <figure class="figure">
+                    <img src="../static/images/coffee-bean.png" class="figure-img img-fluid rounded border border-black" alt="temporary placeholder">
+                    <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                </figure>                
+            </div>
+        </div>
+    </div>
+{% endblock %}

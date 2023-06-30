@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block main%}
+<div class="content">
+    <div class="header">
+        <h1>Brewing methods</h1>
+        <p>An overview of the most common brewing methods for coffee . </p>
+    </div>
+</div>
+<div class="card_container">
+    <div class="cards">
+        <div class="card h-100" style="width: 25rem;">
+            <img src="./static/images/espresso_shot.png" class="card-img-top" alt="Espresso espresso_shot">
+            <div class="card-body">
+            <h5 class="card-title">Espresso</h5>
+            <p class="card-text">Learn how to make the perfect espresso and latte art.</p>
+            <a href="#" class="btn btn-dark">Learn more</a>
+            </div>
+        </div>
+    </div>
+    <div class="cards">
+        <div class="card h-100" style="width: 25rem;">
+            <img src="./static/images/chemex.png" class="card-img-top" alt="Chemex pot">
+            <div class="card-body">
+            <h5 class="card-title">Soft brewing techniques</h5>
+            <p class="card-text">Get to know the different drip, percolation and submersion brewing methods.</p>
+            <a href="#" class="btn btn-dark">Learn more</a>
+            </div>
+        </div>
+    </div>
+    <div class="cards">
+        <div class="card h-100" style="width: 25rem;">
+            <img src="./static/images/cocktails.png" class="card-img-top" alt="Coffee cocktails">
+            <div class="card-body">
+            <h5 class="card-title">Cocktails</h5>
+            <p class="card-text">Looking to make your coffee fancier than ever before? Give a try at some of these cocktails!</p>
+            <a href="#" class="btn btn-dark">Learn more</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
