@@ -5,3 +5,91 @@
 {% endblock %}
 
 {% block main%}
+<div class="contact_hero">
+   <div class="header">
+        <h1>CONTACT</h1>
+        <p>This website was designed as the final assignment for the CS50 course . Feel free to get in touch for any other web design projects</p>
+    </div>
+    <div class="contact_content">
+        <div class="image" style="justify-self: left;">
+            <img src="./static/images/coffee_contact.jpeg" alt="temporary">
+        </div>
+        <div class="contact">
+            <div class="contact_item">
+                <div class="contact_icon">
+                    <svg width="67" height="50" viewBox="0 0 67 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M60.835 0.5C63.8643 0.5 66.32 2.95572 66.32 5.985V44.38C66.32 47.4093 63.8643 49.865 60.835 49.865H5.985C2.95572 49.865 0.5 47.4093 0.5 44.38V5.985C0.5 2.95572 2.95572 0.5 5.985 0.5H60.835ZM24.0892 29.5542L7.93367 45.5216H58.3646L42.3809 29.7172L33.41 35.9282L24.0892 29.5542ZM61.8482 16.2707L46.064 27.1844L61.8482 42.77V16.2707ZM4.98344 16.4719V42.2593L20.4024 27.0181L4.98344 16.4719ZM60.7833 4.84842H6.08814C5.74406 4.84842 5.46897 4.94245 5.26287 5.13049C5.05677 5.31854 4.964 5.56189 4.98458 5.86053V11.1909L33.41 30.6317L61.8575 11V6.09199C61.8623 5.65103 61.761 5.33053 61.5535 5.13049C61.3461 4.93046 61.0893 4.83643 60.7833 4.84842Z" fill="#555555"/>
+                    </svg>                                                
+                </div>
+                <div class="contact_text">
+                    <a href="pierre_bruyninckx@hotmail.com">pierre_bruyninckx@hotmail.com</a>
+                </div>
+            </div>
+            <div class="contact_item">
+                <div class="contact_icon">
+                    <svg width="66" height="95" viewBox="0 0 66 95" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M56.4171 0C61.6102 0 65.82 4.2098 65.82 9.40286V84.6257C65.82 89.8188 61.6102 94.0286 56.4171 94.0286H9.40286C4.2098 94.0286 0 89.8188 0 84.6257V9.40286C0 4.2098 4.2098 0 9.40286 0H56.4171ZM59.238 72.3456H6.582V84.6257C6.582 86.1836 7.84494 87.4466 9.40286 87.4466H56.4171C57.9751 87.4466 59.238 86.1836 59.238 84.6257V72.3456ZM32.91 75.2229C35.5065 75.2229 37.6114 77.3278 37.6114 79.9243C37.6114 82.5208 35.5065 84.6257 32.91 84.6257C30.3135 84.6257 28.2086 82.5208 28.2086 79.9243C28.2086 77.3278 30.3135 75.2229 32.91 75.2229ZM56.4171 6.582H9.40286C7.84494 6.582 6.582 7.84494 6.582 9.40286V65.7636H59.238V9.40286C59.238 7.84494 57.9751 6.582 56.4171 6.582Z" fill="#555555"/>
+                    </svg>                           
+                </div>
+                <div class="contact_text">
+                    (+886) 975 911 302
+                </div>
+            </div>
+            <div class="contact_item">
+                <div class="contact_icon">
+                    <svg width="66" height="66" viewBox="0 0 66 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M56.0759 56.0896H46.3291V40.8166C46.3291 37.1746 46.255 32.4877 41.2499 32.4877C36.1681 32.4877 35.392 36.4506 35.392 40.5479V56.0896H25.6451V24.6825H35.008V28.9635H35.1342C36.4423 26.4953 39.6236 23.8899 44.3764 23.8899C54.2521 23.8899 56.0786 30.3896 56.0786 38.8503L56.0759 56.0896ZM14.6367 20.385C11.4993 20.385 8.97894 17.8454 8.97894 14.7217C8.97894 11.6008 11.502 9.06396 14.6367 9.06396C17.7632 9.06396 20.2972 11.6008 20.2972 14.7217C20.2972 17.8454 17.7604 20.385 14.6367 20.385ZM19.5239 56.0896H9.74959V24.6825H19.5239V56.0896ZM60.9521 0H4.85697C2.17206 0 0 2.12269 0 4.74178V61.0782C0 63.7 2.17206 65.82 4.85697 65.82H60.9438C63.626 65.82 65.82 63.7 65.82 61.0782V4.74178C65.82 2.12269 63.626 0 60.9438 0L60.9521 0Z" fill="#555555"/>
+                    </svg>
+                </div>
+                <div class="contact_text">
+                    <a href="https://www.linkedin.com/in/pierre-bruyninckx-62818312b">Pierre Bruyninckx</a>
+                </div>
+            </div>
+            <div class="contact_item">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalForm">
+                    Get in touch
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="ModalForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Contact form</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/contact" method="post" id="contactform">
+                                
+                                    <label for="fname">First Name</label>
+                                    <input type="text" id="fname" name="firstname" placeholder="Your name.." required>
+                                
+                                    <label for="lname">Last Name</label>
+                                    <input type="text" id="lname" name="lastname" placeholder="Your last name.." required>
+                                
+                                    <label for="email">Email</label>
+                                    <input type="text" id="email" name="email" placeholder="ilove@coffee.com" required>
+                                
+                                    <label for="subject">Subject</label>
+                                    <textarea id="subject" name="subject" placeholder="Ask something.." style="height:200px"></textarea required>
+                                
+                                    <button type="submit" class="btn btn-dark">
+                                        Submit
+                                    </button>                                
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+ 
+</div>
+
+{% endblock %}
