@@ -139,16 +139,19 @@ def register():
 @app.route("/")
 @login_required
 def index():
+    #   Redirect user to the overview page
     return render_template("index.html")
         
 @app.route("/brewing")
 @login_required
 def brewing():
+    #   Redirect the user to the brewing methods page
     return render_template("brewing.html")
 
 @app.route("/contact", methods=["GET", "POST"])
 @login_required
 def contact():
+    """Send email with the filled in contact form"""
     if request.method == "POST":
         fname = request.form.get("firstname")
         lname = request.form.get("lastname")
@@ -164,13 +167,52 @@ def contact():
         flash('Form sent.')
         return render_template("contact.html")
 
+    #Render the contact page
     else:
         return render_template("contact.html")
 
-@app.route("/mybeans")
+@app.route("/mybeans", methods=["GET", "POST"])
 @login_required
 def mybeans():
-    return render_template("mybeans.html")
+    """If user wants to add new beans, add all the required fields to the 'mybeans' table in the database"""
+    #   First, get the user id of the user in the current session
+    id = session.get("user_id")
+    if request.method == "POST":
+        #   Get all the information from the form and perform some checks on the data.
+        ## Required info
+        name = request.form.get("BeanName")
+        origin = request.form.get("BeanOrigin")
+        roastDate = request.form.get("RoastDate")
+        expiryDate = request.form.get("ExpiryDate")
+        retailer = request.form.get("Retailer")
+        stock = request.form.get("Stock")
+        ## Optional info
+        roast = request.form.get("Roast")
+        notes = request.form.get("Notes")
+        acidity = request.form.get("Acidity")
+        CR_review = request.form.get("CR_Review")
+        description = request.form.get("Description")
+        comments = request.form.get("Comments")
+
+        ## Print all the info for verification
+        print(f"Name: {name}\nOrigin: {origin}\nRoast date: {roastDate}\nExpiry date: {expiryDate}\nRetailer: {retailer}\nStock: {stock}\nRoast: {roast}\nNotes: {notes}\nAcidity: {acidity}\nCR Review: {CR_review}\nDescription: {description}\nComments: {comments}\n")
+
+        ## Send all the info to the mybeans table in the database.
+        db.execute("INSERT into mybeans (user_id, bean_name, origin, roast_date, expiry_date, retailer, amount, roasting_level, notes, acidity, CR_review, description, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", id, name, origin, roastDate, expiryDate, retailer, stock, roast, notes, acidity, CR_review, description, comments)
+        
+        
+        flash('Bean information added')
+        return redirect("/mybeans"), 200
+
+    # Else, redirect the user to the my beans overview page
+
+    else:
+        # When loading this page, update the table in this HTML page with the latest data for the beans.
+        # Create a list of dictionaries with the fields required for the table on the html page: bean name, origin, roast date, expiry date, retailer, and the amount in stock.+
+        table_data = db.execute("SELECT bean_name, origin, roast_date, expiry_date, retailer, amount FROM mybeans WHERE user_id == ? GROUP BY bean_name", id)
+        print(table_data)
+        
+        return render_template("mybeans.html", beans_data = table_data)
 
 @app.route("/reviews")
 @login_required
