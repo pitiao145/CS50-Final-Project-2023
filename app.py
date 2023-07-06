@@ -178,41 +178,79 @@ def mybeans():
     #   First, get the user id of the user in the current session
     id = session.get("user_id")
     if request.method == "POST":
-        #   Get all the information from the form and perform some checks on the data.
-        ## Required info
-        name = request.form.get("BeanName")
-        origin = request.form.get("BeanOrigin")
-        roastDate = request.form.get("RoastDate")
-        expiryDate = request.form.get("ExpiryDate")
-        retailer = request.form.get("Retailer")
-        stock = request.form.get("Stock")
-        ## Optional info
-        roast = request.form.get("Roast")
-        notes = request.form.get("Notes")
-        acidity = request.form.get("Acidity")
-        CR_review = request.form.get("CR_Review")
-        description = request.form.get("Description")
-        comments = request.form.get("Comments")
+        if request.form.get("detailedBeanName") == None:
+            #   Get all the information from the form and perform some checks on the data.
+            ## Required info
+            name = request.form.get("BeanName")
 
-        ## Print all the info for verification
-        print(f"Name: {name}\nOrigin: {origin}\nRoast date: {roastDate}\nExpiry date: {expiryDate}\nRetailer: {retailer}\nStock: {stock}\nRoast: {roast}\nNotes: {notes}\nAcidity: {acidity}\nCR Review: {CR_review}\nDescription: {description}\nComments: {comments}\n")
+            ##  Check that this beans isn't in the database yet
+            name_check = db.execute("SELECT * FROM mybeans WHERE user_id == ? AND bean_name == ?", id, name)
+            if len(name_check) != 0:
+                flash("This coffee bean already exists in your table!")
+                return redirect("/mybeans")
 
-        ## Send all the info to the mybeans table in the database.
-        db.execute("INSERT into mybeans (user_id, bean_name, origin, roast_date, expiry_date, retailer, amount, roasting_level, notes, acidity, CR_review, description, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", id, name, origin, roastDate, expiryDate, retailer, stock, roast, notes, acidity, CR_review, description, comments)
-        
-        
-        flash('Bean information added')
-        return redirect("/mybeans"), 200
+            origin = request.form.get("BeanOrigin")
+            roastDate = request.form.get("RoastDate")
+            expiryDate = request.form.get("ExpiryDate")
+            retailer = request.form.get("Retailer")
+            stock = request.form.get("Stock")
+            ## Optional info
+            type = request.form.info("Type")
+            roast = request.form.get("Roast")
+            notes = request.form.get("Notes")
+            acidity = request.form.get("Acidity")
+            CR_review = request.form.get("CR_Review")
+            description = request.form.get("Description")
+            comments = request.form.get("Comments")
+
+            ## Print all the info for verification
+            print(f"Name: {name}\nOrigin: {origin}\nRoast date: {roastDate}\nExpiry date: {expiryDate}\nRetailer: {retailer}\nStock: {stock}\nType: {type}\nRoast: {roast}\nNotes: {notes}\nAcidity: {acidity}\nCR Review: {CR_review}\nDescription: {description}\nComments: {comments}\n")
+
+            ##  
+            ## Send all the info to the mybeans table in the database.
+            db.execute("INSERT into mybeans (user_id, bean_name, origin, roast_date, expiry_date, retailer, amount, type, roasting_level, notes, acidity, CR_review, description, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", id, name, origin, roastDate, expiryDate, retailer, stock, type, roast, notes, acidity, CR_review, description, comments)
+            
+            
+            flash('Bean information added')
+            return redirect("/mybeans"), 200
+        else:
+            detailedBeanName = request.form.get("detailedBeanName")
+            print(f"Detail of {detailedBeanName}: ...")
+
+            ##  Get the detailed information for that bean from the database
+            detailedInfo = db.execute("SELECT bean_name, type, origin, roasting_level, notes, acidity, CR_review, description, comments FROM mybeans WHERE user_id == ? AND bean_name == ?", id, detailedBeanName)
+            print(f"Detailed info: {detailedInfo}")
+            return render_template("mybeans.html", beans_detailed_data = detailedInfo)
 
     # Else, redirect the user to the my beans overview page
 
     else:
         # When loading this page, update the table in this HTML page with the latest data for the beans.
         # Create a list of dictionaries with the fields required for the table on the html page: bean name, origin, roast date, expiry date, retailer, and the amount in stock.+
-        table_data = db.execute("SELECT bean_name, origin, roast_date, expiry_date, retailer, amount FROM mybeans WHERE user_id == ? GROUP BY bean_name", id)
-        print(table_data)
+        table_data = db.execute("SELECT bean_name, type, origin, roast_date, expiry_date, retailer, amount FROM mybeans WHERE user_id == ? GROUP BY bean_name", id)
+        # print(table_data)
         
-        return render_template("mybeans.html", beans_data = table_data)
+        return render_template("mybeans.html", beans_data = table_data, beans_detailed_data = table_data)
+
+@app.route("/addstock", methods=["GET", "POST"])
+@login_required
+def addstock():
+    id = session.get("user_id")
+    if request.method == "POST":
+        #   Get data from form
+        target_bean = request.form.get("BeanName")
+        amount_to_add = request.form.get("stock")
+
+
+
+        #   Update the stock in the database
+        db.execute("UPDATE mybeans SET amount = ((SELECT amount FROM mybeans WHERE bean_name == ? AND user_id == ?) + ?) WHERE bean_name == ? AND user_id == ?", target_bean, id, amount_to_add, target_bean, id)
+
+        print(f"Bean: {target_bean}\nTo add: {amount_to_add}")
+        flash("Stock successfully added!")
+        return redirect("/mybeans")
+    else:
+        return redirect("/mybeans")
 
 @app.route("/reviews")
 @login_required

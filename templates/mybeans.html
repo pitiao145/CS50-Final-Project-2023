@@ -17,12 +17,14 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Type</th>
                     <th scope="col">Origin</th>
                     <th scope="col">Roast date</th>
                     <th scope="col">Expiry date</th>
                     <th scope="col">Retailer</th>
                     <th scope="col">Amount in stock (g)</th>
                     <th scope="col">Add stock</th>
+                    <th scope="col">More info</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,17 +32,32 @@
                 <tr>
                     <td scope="row" class="countercell"></td>
                     <td>{{ row['bean_name'] }}</td>
+                    <td>{{ row['type'] }}</td>
                     <td>{{ row['origin'] }}</td>
                     <td>{{ row['roast_date'] }}</td>
                     <td>{{ row['expiry_date'] }}</td>
                     <td>{{ row['retailer'] }}</td>
                     <td>{{ row['amount'] }}</td>
-                    <td></td>
+                    <td>
+                        <div class="addStockForm">
+                            <form action="/addstock" method="post">
+                                <label for="stock">Add amount (g)</label>
+                                <input type="number" id="stock" name="stock" min="0" required step="1" onclick="getBeanName(this,'BeanName')">
+                                <input type="text" hidden class="BeanName" name="BeanName" value="" >
+                                <button class="btn btn-dark" type="submit">+</button>
+                            </form>
+                        </div>
+                    </td>
+                    <td><form action="/mybeans" method="post">
+                        <input type="text" hidden class="detailedBeanName" name="detailedBeanName">
+                        <button type="submit">More info</button>
+                    </form></td>
                 </tr>      
                 {% endfor %}     
             </tbody>
             <tfoot>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -57,6 +74,10 @@
                 </tr>
             </tfooter>
         </table>
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalBeanDetail">
+            Detail modal
+        </button>
+        <!--Detailed info card--> 
         </div>
         <div class="beans_table_item">
             Some graphs
@@ -64,7 +85,7 @@
         </div>   
     </div>
 </div>
-<!-- Modal -->
+<!-- Modal for add bean form-->
 <div class="modal fade" id="ModalBeanForm" tabindex="-1" aria-labelledby="ModalBeanFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -94,6 +115,9 @@
                         <input type="number" id="stock" name="Stock" placeholder="230g" min="0" required>
                     </fieldset>
                     <fieldset><legend>Detailed information</legend>
+                        <label for="type">Bean type</label>
+                        <input type="text" id="type" name="Type" placeholder="Arabica">
+
                         <label for="roast">Roasting level (0=light - 5=dark)</label>
                         <input type="number" id="roast" name="Roast" placeholder="3" min="0" max="5" step="0.1">
                         
@@ -121,5 +145,108 @@
         </div>
     </div>
 </div> 
+<!-- Pop up for detail card-->
+<div class="modal " id="ModalBeanDetail" tabindex="-1" aria-labelledby="ModalBeanDetailLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h1 class="modal-title fs-5" id="ModalBeanDetailLabel">Detail</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body detail_card_container">
+                <div class="card mb-3 detail_card">
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img src="../static/images/coffeebag.png" class="img-fluid rounded-start" alt="coffee bag">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">Bean name</h5>
+                          <table>
+                            <table class="table table-striped table-responsive table-hover" id="detailedBeans">
+                                <thead>
+                                    Details
+                                </thead>
+                                <tbody>
+                                    {% for row in beans_detailed_data%}
+                                    <tr>
+                                        <th >Name</th>
+                                        <td>{{ row['bean_name'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th >Type</th>
+                                        <td>{{ row['type'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th >Origin</th>
+                                        <td>{{ row['origin'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th >Roasting level</th>
+                                        <td>{{ row['roasting_level'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th >Notes</th>
+                                        <td>{{ row['notes'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th >Acidity</th>
+                                        <td>{{ row['acidity'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th >CR Review</th>
+                                        <td>{{ row['CR_review'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Description</th>
+                                        <td>{{ row['description'] }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Comments</th>
+                                        <td>{{ row['comments'] }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // When the DOM content is loaded, assign the value of the name of the bean in each row for the hidden inputs.
+        beanNameList = document.getElementsByClassName('BeanName');
+        detailedBeanNameList = document.getElementsByClassName('detailedBeanName');
+
+        for (let i = 0; i < beanNameList.length; i++) {
+            let el_beanName = beanNameList[i];
+            let el_detailedBeanName = detailedBeanNameList[i];
+            let row = el_beanName.closest('tr');
+            let index = row.rowIndex;
+            let name = row.cells[1].innerHTML;
+            console.log('el_beanname' + el_beanName + 'el_detailedbeanname' + el_detailedBeanName + 'row' + row + 'index' + index + 'name' + name)
+
+            // Assign the name value to the input elements with class name beanName and detailedBeanName in that row
+            el_beanName.value = name;
+            el_detailedBeanName.value = name;
+        } 
+    })
+
+    function getDetails(el){
+        var ajax = new XMLHttpRequest();
+
+        ajax.onreadystatechange = function(){
+            if (ajax.readyState == 4 && ajax.status == 200){
+                $('#')
+            }
+        }
+    }
+</script>
 
 {% endblock %}
