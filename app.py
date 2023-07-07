@@ -4,6 +4,7 @@ from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from flask_mail import Mail, Message
+import json
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 import datetime
@@ -220,8 +221,13 @@ def mybeans():
         # Create a list of dictionaries with the fields required for the table on the html page: bean name, origin, roast date, expiry date, retailer, and the amount in stock.+
         table_data = db.execute("SELECT bean_name, type, origin, roast_date, expiry_date, retailer, amount FROM mybeans WHERE user_id == ? GROUP BY bean_name", id)
         # print(table_data)
-        
-        return render_template("mybeans.html", beans_data = table_data)
+
+        #  Also add the data for the charts from the database.
+        chart_data_type = db.execute("SELECT type, COUNT(type) as n FROM mybeans WHERE user_id == ? GROUP BY type;", id)
+        chart_data_origin = db.execute("SELECT origin, COUNT(type) as n FROM mybeans WHERE user_id == ? GROUP BY origin;", id)
+        print(f"Type: {chart_data_type}")
+        print(f"Origin: {chart_data_origin}")
+        return render_template("mybeans.html", beans_data = table_data, chart_data_type = chart_data_type, chart_data_origin = chart_data_origin)
 
 @app.route("/ajaxfile", methods=["GET", "POST"])
 @login_required

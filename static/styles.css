@@ -347,7 +347,7 @@ input {
 .beans_table{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 table{
     counter-reset: tableCount;
@@ -391,6 +391,24 @@ table{
 .detail_card{
     width: 75%;
 }
+/*Charts*/
+.bean_charts{
+    display: grid;
+    width: 50vw;
+}
+.bar{
+    display: block;
+}
+.pies{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.pie{
+    width: 50%;
+}
+
 /*Responsive media queries*/
 
 @media (min-width: 1025px){
