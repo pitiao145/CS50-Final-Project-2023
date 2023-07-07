@@ -1,0 +1,60 @@
+<!--Detailed info card--> 
+
+<div class="card mb-3 detail_card">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="../static/images/coffeebag.png" class="img-fluid rounded-start" alt="coffee bag">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">Bean name</h5>
+          <table>
+            <table class="table table-striped table-responsive table-hover" id="detailedBeans">
+                <thead>
+                    Details
+                </thead>
+                <tbody>
+                    {% for row in beans_detailed_data%}
+                    <tr>
+                        <th >Name</th>
+                        <td>{{ row['bean_name'] }}</td>
+                    </tr>
+                    <tr>
+                        <th >Type</th>
+                        <td>{{ row['type'] }}</td>
+                    </tr>
+                    <tr>
+                        <th >Origin</th>
+                        <td>{{ row['origin'] }}</td>
+                    </tr>
+                    <tr>
+                        <th >Roasting level</th>
+                        <td>{{ row['roasting_level'] }}</td>
+                    </tr>
+                    <tr>
+                        <th >Notes</th>
+                        <td>{{ row['notes'] }}</td>
+                    </tr>
+                    <tr>
+                        <th >Acidity</th>
+                        <td>{{ row['acidity'] }}</td>
+                    </tr>
+                    <tr>
+                        <th >CR Review</th>
+                        <td>{{ row['CR_review'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ row['description'] }}</td>
+                    </tr>
+                    <tr>
+                        <th>Comments</th>
+                        <td>{{ row['comments'] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -42,16 +42,16 @@
                         <div class="addStockForm">
                             <form action="/addstock" method="post">
                                 <label for="stock">Add amount (g)</label>
-                                <input type="number" id="stock" name="stock" min="0" required step="1" onclick="getBeanName(this,'BeanName')">
+                                <input type="number" id="stock" name="stock" min="0" required step="1">
                                 <input type="text" hidden class="BeanName" name="BeanName" value="" >
                                 <button class="btn btn-dark" type="submit">+</button>
                             </form>
                         </div>
                     </td>
-                    <td><form action="/mybeans" method="post">
-                        <input type="text" hidden class="detailedBeanName" name="detailedBeanName">
-                        <button type="submit">More info</button>
-                    </form></td>
+                    <td>
+                        <!-- Button ajax trigger detailed bean modal -->
+                        <button type="submit" class="moreInfo">More info</button>
+                    </td>
                 </tr>      
                 {% endfor %}     
             </tbody>
@@ -66,7 +66,7 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <!-- Button trigger modal -->
+                        <!-- Button trigger add bean modal -->
                         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalBeanForm">
                             Add beans
                         </button>
@@ -74,15 +74,15 @@
                 </tr>
             </tfooter>
         </table>
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalBeanDetail">
-            Detail modal
-        </button>
-        <!--Detailed info card--> 
         </div>
         <div class="beans_table_item">
             Some graphs
             <img src="../static/images/coffee-bean.png" alt="temp">
         </div>   
+    </div>
+    <div class="bean_charts">
+        <canvas id="myChart">
+        </canvas>
     </div>
 </div>
 <!-- Modal for add bean form-->
@@ -146,7 +146,7 @@
     </div>
 </div> 
 <!-- Pop up for detail card-->
-<div class="modal " id="ModalBeanDetail" tabindex="-1" aria-labelledby="ModalBeanDetailLabel" aria-hidden="true">
+<div class="modal fade" id="ModalBeanDetail" tabindex="-1" aria-labelledby="ModalBeanDetailLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -154,99 +154,31 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body detail_card_container">
-                <div class="card mb-3 detail_card">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="../static/images/coffeebag.png" class="img-fluid rounded-start" alt="coffee bag">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title">Bean name</h5>
-                          <table>
-                            <table class="table table-striped table-responsive table-hover" id="detailedBeans">
-                                <thead>
-                                    Details
-                                </thead>
-                                <tbody>
-                                    {% for row in beans_detailed_data%}
-                                    <tr>
-                                        <th >Name</th>
-                                        <td>{{ row['bean_name'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th >Type</th>
-                                        <td>{{ row['type'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th >Origin</th>
-                                        <td>{{ row['origin'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th >Roasting level</th>
-                                        <td>{{ row['roasting_level'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th >Notes</th>
-                                        <td>{{ row['notes'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th >Acidity</th>
-                                        <td>{{ row['acidity'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th >CR Review</th>
-                                        <td>{{ row['CR_review'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Description</th>
-                                        <td>{{ row['description'] }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Comments</th>
-                                        <td>{{ row['comments'] }}</td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <!--See details.html-->
             </div>
         </div>
     </div>
 </div>
+<!--JQuery script-->
 <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-<script>
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        // When the DOM content is loaded, assign the value of the name of the bean in each row for the hidden inputs.
-        beanNameList = document.getElementsByClassName('BeanName');
-        detailedBeanNameList = document.getElementsByClassName('detailedBeanName');
-
-        for (let i = 0; i < beanNameList.length; i++) {
-            let el_beanName = beanNameList[i];
-            let el_detailedBeanName = detailedBeanNameList[i];
-            let row = el_beanName.closest('tr');
-            let index = row.rowIndex;
-            let name = row.cells[1].innerHTML;
-            console.log('el_beanname' + el_beanName + 'el_detailedbeanname' + el_detailedBeanName + 'row' + row + 'index' + index + 'name' + name)
-
-            // Assign the name value to the input elements with class name beanName and detailedBeanName in that row
-            el_beanName.value = name;
-            el_detailedBeanName.value = name;
-        } 
-    })
-
-    function getDetails(el){
-        var ajax = new XMLHttpRequest();
-
-        ajax.onreadystatechange = function(){
-            if (ajax.readyState == 4 && ajax.status == 200){
-                $('#')
-            }
-        }
-    }
+<!--Modal script with AJAX, to dynamically show the detailed info of the beans in a pop up modal-->
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $('.moreInfo').click(function(){
+            var name = getName(this);
+            console.log('ajax_name: ' + name)
+            $.ajax({
+                url: '/ajaxfile',
+                type: 'post',
+                data: {name: name},
+                success: function(data){ 
+                $('.detail_card_container').html(data); 
+                $('.detail_card_container').append(data.htmlresponse);
+                $('#ModalBeanDetail').modal('show'); 
+                }
+            });
+       });
+});
 </script>
 
 {% endblock %}

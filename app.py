@@ -1,7 +1,7 @@
 import os
 
 from cs50 import SQL
-from flask import Flask, flash, redirect, render_template, request, session
+from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
 from flask_mail import Mail, Message
 from tempfile import mkdtemp
@@ -178,49 +178,40 @@ def mybeans():
     #   First, get the user id of the user in the current session
     id = session.get("user_id")
     if request.method == "POST":
-        if request.form.get("detailedBeanName") == None:
-            #   Get all the information from the form and perform some checks on the data.
-            ## Required info
-            name = request.form.get("BeanName")
+        #   Get all the information from the form and perform some checks on the data.
+        ## Required info
+        name = request.form.get("BeanName")
 
-            ##  Check that this beans isn't in the database yet
-            name_check = db.execute("SELECT * FROM mybeans WHERE user_id == ? AND bean_name == ?", id, name)
-            if len(name_check) != 0:
-                flash("This coffee bean already exists in your table!")
-                return redirect("/mybeans")
+        ##  Check that this beans isn't in the database yet
+        name_check = db.execute("SELECT * FROM mybeans WHERE user_id == ? AND bean_name == ?", id, name)
+        if len(name_check) != 0:
+            flash("This coffee bean already exists in your table!")
+            return redirect("/mybeans")
 
-            origin = request.form.get("BeanOrigin")
-            roastDate = request.form.get("RoastDate")
-            expiryDate = request.form.get("ExpiryDate")
-            retailer = request.form.get("Retailer")
-            stock = request.form.get("Stock")
-            ## Optional info
-            type = request.form.info("Type")
-            roast = request.form.get("Roast")
-            notes = request.form.get("Notes")
-            acidity = request.form.get("Acidity")
-            CR_review = request.form.get("CR_Review")
-            description = request.form.get("Description")
-            comments = request.form.get("Comments")
+        origin = request.form.get("BeanOrigin")
+        roastDate = request.form.get("RoastDate")
+        expiryDate = request.form.get("ExpiryDate")
+        retailer = request.form.get("Retailer")
+        stock = request.form.get("Stock")
+        ## Optional info
+        type = request.form.info("Type")
+        roast = request.form.get("Roast")
+        notes = request.form.get("Notes")
+        acidity = request.form.get("Acidity")
+        CR_review = request.form.get("CR_Review")
+        description = request.form.get("Description")
+        comments = request.form.get("Comments")
 
-            ## Print all the info for verification
-            print(f"Name: {name}\nOrigin: {origin}\nRoast date: {roastDate}\nExpiry date: {expiryDate}\nRetailer: {retailer}\nStock: {stock}\nType: {type}\nRoast: {roast}\nNotes: {notes}\nAcidity: {acidity}\nCR Review: {CR_review}\nDescription: {description}\nComments: {comments}\n")
+        ## Print all the info for verification
+        print(f"Name: {name}\nOrigin: {origin}\nRoast date: {roastDate}\nExpiry date: {expiryDate}\nRetailer: {retailer}\nStock: {stock}\nType: {type}\nRoast: {roast}\nNotes: {notes}\nAcidity: {acidity}\nCR Review: {CR_review}\nDescription: {description}\nComments: {comments}\n")
 
-            ##  
-            ## Send all the info to the mybeans table in the database.
-            db.execute("INSERT into mybeans (user_id, bean_name, origin, roast_date, expiry_date, retailer, amount, type, roasting_level, notes, acidity, CR_review, description, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", id, name, origin, roastDate, expiryDate, retailer, stock, type, roast, notes, acidity, CR_review, description, comments)
-            
-            
-            flash('Bean information added')
-            return redirect("/mybeans"), 200
-        else:
-            detailedBeanName = request.form.get("detailedBeanName")
-            print(f"Detail of {detailedBeanName}: ...")
-
-            ##  Get the detailed information for that bean from the database
-            detailedInfo = db.execute("SELECT bean_name, type, origin, roasting_level, notes, acidity, CR_review, description, comments FROM mybeans WHERE user_id == ? AND bean_name == ?", id, detailedBeanName)
-            print(f"Detailed info: {detailedInfo}")
-            return render_template("mybeans.html", beans_detailed_data = detailedInfo)
+        ##  
+        ## Send all the info to the mybeans table in the database.
+        db.execute("INSERT into mybeans (user_id, bean_name, origin, roast_date, expiry_date, retailer, amount, type, roasting_level, notes, acidity, CR_review, description, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", id, name, origin, roastDate, expiryDate, retailer, stock, type, roast, notes, acidity, CR_review, description, comments)
+        
+        
+        flash('Bean information added')
+        return redirect("/mybeans"), 200
 
     # Else, redirect the user to the my beans overview page
 
@@ -230,7 +221,23 @@ def mybeans():
         table_data = db.execute("SELECT bean_name, type, origin, roast_date, expiry_date, retailer, amount FROM mybeans WHERE user_id == ? GROUP BY bean_name", id)
         # print(table_data)
         
-        return render_template("mybeans.html", beans_data = table_data, beans_detailed_data = table_data)
+        return render_template("mybeans.html", beans_data = table_data)
+
+@app.route("/ajaxfile", methods=["GET", "POST"])
+@login_required
+def ajaxfile():
+    #   Get id of the user in the current session
+    id = session.get("user_id")
+    #   If a request is made to get detailed information, gather all the required info from the selected bean
+    if request.method == "POST":
+        detailedBeanName = request.form.get("name")
+        print(f"Detail of {detailedBeanName}: ...")
+
+        ##  Get the detailed information for that bean from the database
+        detailedInfo = db.execute("SELECT bean_name, type, origin, roasting_level, notes, acidity, CR_review, description, comments FROM mybeans WHERE user_id == ? AND bean_name == ?", id, detailedBeanName)
+        print(f"Detailed info: {detailedInfo}")
+        return jsonify({'htmlresponse': render_template("details.html",beans_detailed_data = detailedInfo)})
+
 
 @app.route("/addstock", methods=["GET", "POST"])
 @login_required
