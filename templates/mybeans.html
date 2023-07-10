@@ -6,13 +6,20 @@
 
 {% block main%}
 <div class="beans_container">
-    <div class="header">
-        <h1>My beans</h1>
-        <p>An overview of your stock of beans. You can add all the beans you currently have to the list, in order to have an overview of the different types of beans you own, which rating you gave them etc.</p>
+    <div class="heading">
+       <div class="header">
+            <h1>My beans</h1>
+            <p>An overview of your stock of beans. You can add all the beans you currently have to the list, in order to have an overview of the different types of beans you own, which rating you gave them etc.</p>
+        </div> 
+        <div class="page_nav">
+            
+        </div>
     </div>
+    <div class="break_line"></div>
     <!--Overview of beans user has added-->
-    <div class="beans_table">
+    <section id="beans_table">
         <div class="beans_table_item">
+            <h1>Overview table</h1>
             <table class="table table-striped table-responsive table-hover" id="mybeans">
             <thead>
                 <tr>
@@ -40,24 +47,24 @@
                     <td>{{ row['retailer'] }}</td>
                     <td class="bean_stock">{{ row['amount'] }}</td>
                     <td>
-                        <div class="addStockForm">
-                            <form action="/addstock" method="post">
-                                <label for="stock">Add amount (g)</label>
+                        <form action="/addstock" method="post">
+                            <div class="add_stock_form">
                                 <input type="number" id="stock" name="stock" min="0" required step="1">
                                 <input type="text" hidden class="BeanName" name="BeanName" value="" >
-                                <button class="btn btn-dark" type="submit">+</button>
-                            </form>
-                        </div>
+                                <button class="btn btn-dark" type="submit">Add</button>
+                            </div>
+                        </form>
                     </td>
                     <td>
                         <!-- Button ajax trigger detailed bean modal -->
-                        <button type="submit" class="moreInfo">More info</button>
+                        <button type="submit" class=" btn btn-secondary btn-sm moreInfo">More info</button>
                     </td>
                 </tr>      
                 {% endfor %}     
             </tbody>
             <tfoot>
                 <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -76,26 +83,26 @@
             </tfooter>
         </table>
         </div>
+    </section>
+    <div class="break_line"></div>
+    <section class="charts">
         <!--Charts to display stock of beans and amount of each type of bean-->
-        <div class="beans_table_item">
-            <div class="bean_charts">
-                <div class="bar">
-                    <canvas id="myChart1">
-                    </canvas>
-                </div>
-                <div class="pies">
-                    <div class="pie">
-                        <canvas id="myChart2">
-                        </canvas>
-                    </div>
-                    <div class="pie">
-                        <canvas id="myChart3">
-                        </canvas>
-                    </div>
-                </div>       
+        <head><h1>Stock</h1></head>
+        <div class="bar">
+            <canvas id="myChart1"></canvas>
+        </div>
+        <head><h1>Types and origins</h1></head>
+        <div class="pies">
+            <div class="pie">
+                <canvas id="myChart2">
+                </canvas>
             </div>
-        </div>   
-    </div>
+            <div class="pie">
+                <canvas id="myChart3">
+                </canvas>
+            </div>
+        </div>       
+    </section>
 </div>
 <!-- Modal for add bean form-->
 <div class="modal fade" id="ModalBeanForm" tabindex="-1" aria-labelledby="ModalBeanFormLabel" aria-hidden="true">
@@ -190,115 +197,115 @@
        });
 });
 </script>
-<!--Charts script-->
-<script>
-    document.addEventListener('DOMContentLoaded', function(){
-
-// Make a chart to display the coffee bean stock.
-// When the stock is too low, color in red
-// When current batch is about to expire, gray
-
-const ctx1 = document.getElementById('myChart1');
-const ctx2 = document.getElementById('myChart2');
-const ctx3 = document.getElementById('myChart3');
-  // Get th elements with the bean names and stock amount from the table
-  
-  let table_labels = document.getElementsByClassName('bean_name');
-  let table_stock = document.getElementsByClassName('bean_stock');
-  var chart_type_query = {{ chart_data_type|tojson() }};
-  var chart_origin_query = {{ chart_data_origin|tojson() }};
-  
-  var chart_labels = [];
-  var chart_stock = [];
-  var chart_type_labels = [];
-  var chart_type_values = [];
-  var chart_origin_labels = [];
-  var chart_origin_values = [];
-  
-  //Populate a list for the labels and a list for the data.
-  for (let i = 0; i < table_labels.length; i++) {
-      chart_labels[i] = table_labels[i].innerHTML;
-    }
-  
-  for (let i = 0; i < table_stock.length; i++) {
-      chart_stock[i] = parseInt(table_stock[i].innerHTML); //Convert the string into floats
-  }
-  // Populate a list for the labels and values for both the origins and types chart
-  for (let i = 0; i < chart_type_query.length; i++) {
-      chart_type_labels[i] = chart_type_query[i]['type'];
-      chart_type_values[i] = parseInt(chart_type_query[i]['n']);
-  }
-  for (let i = 0; i < chart_origin_query.length; i++) {
-      chart_origin_labels[i] = chart_origin_query[i]['origin'];
-      chart_origin_values[i] = parseInt(chart_origin_query[i]['n']);
-  }
-    // Checks      
-  console.log('labels: ' + chart_labels);
-  console.log('stocks: ' + chart_stock);
-  console.log('type labels: ' + chart_type_labels);
-  console.log('type values: ' + chart_type_values);
-  console.log('origin labels: ' + chart_origin_labels);
-  console.log('origin values: ' + chart_origin_values);
-  
-  new Chart(ctx1, {
-      type: 'bar',
-      data: {
-        labels: chart_labels,
-        datasets: [{
-          label: 'Bean stock',
-          data: chart_stock,
-          backgroundColor: '#6F4E37',
-          borderRadius: 50,
-          borderWidth: 2,
-          barPercentage: 0.5,
-          barThickness: 60,
-          minBarLength: 2,
-        }]
-  
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
+    <!--Charts script-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+    
+    // Make a chart to display the coffee bean stock.
+    // When the stock is too low, color in red
+    // When current batch is about to expire, gray
+    
+    const ctx1 = document.getElementById('myChart1');
+    const ctx2 = document.getElementById('myChart2');
+    const ctx3 = document.getElementById('myChart3');
+      // Get th elements with the bean names and stock amount from the table
+      
+      let table_labels = document.getElementsByClassName('bean_name');
+      let table_stock = document.getElementsByClassName('bean_stock');
+      var chart_type_query = {{ chart_data_type|tojson() }};
+      var chart_origin_query = {{ chart_data_origin|tojson() }};
+      
+      var chart_labels = [];
+      var chart_stock = [];
+      var chart_type_labels = [];
+      var chart_type_values = [];
+      var chart_origin_labels = [];
+      var chart_origin_values = [];
+      
+      //Populate a list for the labels and a list for the data.
+      for (let i = 0; i < table_labels.length; i++) {
+          chart_labels[i] = table_labels[i].innerHTML;
+        }
+      
+      for (let i = 0; i < table_stock.length; i++) {
+          chart_stock[i] = parseInt(table_stock[i].innerHTML); //Convert the string into floats
       }
-    });
-
-  new Chart(ctx2, {
-        type: 'pie',
-        data: {
-          labels: chart_type_labels,
-          datasets: [{
-            label: 'Amount',
-            data: chart_type_values,
-            borderWidth: 1
-          }]
+      // Populate a list for the labels and values for both the origins and types chart
+      for (let i = 0; i < chart_type_query.length; i++) {
+          chart_type_labels[i] = chart_type_query[i]['type'];
+          chart_type_values[i] = parseInt(chart_type_query[i]['n']);
+      }
+      for (let i = 0; i < chart_origin_query.length; i++) {
+          chart_origin_labels[i] = chart_origin_query[i]['origin'];
+          chart_origin_values[i] = parseInt(chart_origin_query[i]['n']);
+      }
+        // Checks      
+      console.log('labels: ' + chart_labels);
+      console.log('stocks: ' + chart_stock);
+      console.log('type labels: ' + chart_type_labels);
+      console.log('type values: ' + chart_type_values);
+      console.log('origin labels: ' + chart_origin_labels);
+      console.log('origin values: ' + chart_origin_values);
+      
+      new Chart(ctx1, {
+          type: 'bar',
+          data: {
+            labels: chart_labels,
+            datasets: [{
+              label: 'Bean stock',
+              data: chart_stock,
+              backgroundColor: '#6F4E37',
+              borderRadius: 50,
+              borderWidth: 2,
+              barPercentage: 0.5,
+              barThickness: 60,
+              minBarLength: 2,
+            }]
+      
+          },
+          options: {
+            indexAxis: 'y',
+            responsive: true,
+          }
+        });
     
-        },
-        options: {
-            borderWidth: 5,
-            borderRadius: 2,
-            responsive: true
-        }
-      });
+      new Chart(ctx2, {
+            type: 'pie',
+            data: {
+              labels: chart_type_labels,
+              datasets: [{
+                label: 'Amount',
+                data: chart_type_values,
+                borderWidth: 1
+              }]
+        
+            },
+            options: {
+                borderWidth: 5,
+                borderRadius: 2,
+                responsive: true
+            }
+          });
+        
+      new Chart(ctx3, {
+            type: 'pie',
+            data: {
+              labels: chart_origin_labels,
+              datasets: [{
+                label: 'Amount',
+                data: chart_origin_values,
+                borderWidth: 1
+              }]
+        
+            },
+            options: {
+                borderWidth: 5,
+                borderRadius: 2,
+                responsive: true
+            }
+          });
+        
+        });
+    </script>
     
-  new Chart(ctx3, {
-        type: 'pie',
-        data: {
-          labels: chart_origin_labels,
-          datasets: [{
-            label: 'Amount',
-            data: chart_origin_values,
-            borderWidth: 1
-          }]
-    
-        },
-        options: {
-            borderWidth: 5,
-            borderRadius: 2,
-            responsive: true
-        }
-      });
-    
-    });
-</script>
-
 {% endblock %}

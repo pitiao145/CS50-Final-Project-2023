@@ -2,19 +2,25 @@
 .body{
     background: linear-gradient(#FCF4ED, #fcf4ed6a);
     color: black;
-    display: flex;
-    flex-direction: column;
     min-height: 100vh;
     margin: 0;
     padding: 0;
 }
+
 /* Navigation bar responsive layout*/
 .my_container{
+    display: block;
+    margin: 80px 100px; 
+    }
+#navbar_wrap{
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 20px 100px;
-    position: relative;
+    position: fixed;
+    padding: 10px 100px;
+    top: 0;
+    background-color: #FCF4ED;
+    justify-items: center;
+    width: 100vw;
+    z-index: 1;
 }
 .navigation_items{
     justify-content:right
@@ -27,9 +33,11 @@
 
     float: right;
 }
+
 /*Main section responsive layout*/
 main{
     min-height: 88vh;
+    margin-top: 30px
 }
 
 /*Footer section responsive layout*/
@@ -59,7 +67,13 @@ main{
 .header{
     text-align: left;
     padding: 1rem;
-    max-width: 45%;
+    max-width: 50%;
+}
+.break_line{
+    width: 85vw;
+    border-bottom: 1px solid grey;
+    margin-bottom: 10px;
+    justify-self: center;
 }
 .header h1{
     font-weight: 800;
@@ -161,10 +175,7 @@ main{
     display: block;
 }*/
 .dashboard{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-self: flex-start;
+    display: block
 }
 .graphical_content{
     display: flex;
@@ -172,11 +183,30 @@ main{
     justify-content: space-between;
     padding: 1rem;
 }
-.figure img{
-    width: 100%;
-    max-width: 400px;
-    object-fit: cover;
-    border-radius: 10px;
+.graphical_content_item{
+    width: 50vw;
+}
+.index_bar{
+    width: 75%;
+}
+.coffees_input{
+    display: block;
+}
+.coffee_input{
+    display: flex;
+    gap: 5px;
+    justify-content: space-evenly;
+    align-items: center;
+    grid-template-columns: 4 100px;
+    background-color: rgba(250, 235, 215, 0.878);
+    border: 2px solid #6F4E37;
+    padding: 5px;
+}
+.coffee_input input{
+    width: 20%; 
+}
+.coffee_input select{
+    width: 20%; 
 }
 
 /*Brewing page*/
@@ -344,14 +374,21 @@ input {
     text-align: center;
     height: fit-content;
 }
-.beans_table{
+.heading{
+    display: flex;
+    flex-wrap: wrap;
+}
+#beans_table{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    text-align: center;
+    padding: 1rem;
 }
 table{
     counter-reset: tableCount;
 }
+
 .countercell:before {              
     content: counter(tableCount); 
     counter-increment: tableCount; 
@@ -364,23 +401,46 @@ table{
 }
 .beans_table_item table{
     border: 1px solid black;
-    border-radius: 15px;
 }
 .beans_table_item img{
     width: 100%;
     height: 200px;
     object-fit: cover;
 }
-.addStockForm{
+.beans_table_item table thead{
+    text-align: center;
+    vertical-align: middle;
+}
+.beans_table_item table td{
+    vertical-align: middle;
+    width: fit-content;
+    padding-left: 15px;
+    padding-right: 15px;
+ }
+ .beans_table_item table tfoot td{
+    padding: 5px;
+ }
+ .beans_table_item table tfoot button{
+    height: fit-content;
+    font-size: smaller;
+ }
+ .add_stock_form > input{
+    line-height: 50%;
+    max-width: 60px;
+    max-height: 35px;
+ }
+ .add_stock_form > button{
+    max-width: fit-content;
+    max-height: fit-content;
+    font-size: smaller;
+ }
+ .add_stock_form{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
-    width: 75%;
-}
-.addStockForm input{
-    width: 15%;
-}
+    justify-content: space-between;
+    gap: 5px;
+ }
 
 /*Detailed bean description*/
 .detail_card_container{
@@ -392,20 +452,39 @@ table{
     width: 75%;
 }
 /*Charts*/
-.bean_charts{
+.charts{
     display: grid;
-    width: 50vw;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.charts h1{
+    margin-top: 30px;
 }
 .bar{
+    width: 75vw;
+    margin-top: 20px;
+}
+.bar, .pies{
     display: block;
+    background-color: rgba(250, 235, 215, 0.878);
+    border: 1px solid #6F4E37;
+    padding: 5px;
+}
+.bar:hover, .pies:hover{
+    box-shadow: 10px 10px 5px #4545458c;
 }
 .pies{
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 .pie{
+    width: 33%;
+}
+.pie canvas{
     width: 50%;
 }
 
@@ -422,9 +501,7 @@ table{
     }
 }
 @media (max-width: 768px){
-    .navbar-nav li{
-        margin: auto 0;
-    }
+    
     .image img{
         width: 300px;
     }
@@ -441,9 +518,7 @@ table{
     
 }
 @media (max-width: 425px){
-    .my_container{
-        margin: auto 10px;
-    }
+   
     .small_footer{
         font-size: x-small;
     }

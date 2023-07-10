@@ -24,8 +24,8 @@
 </head>
 <body class="body">
     <!--Navigation bar, depending on if user is logged in-->
-    <nav class="navbar navbar-expand-md my_container">
-        <div class="container-fluid" id="navbar_wrap">
+    <nav class="navbar navbar-expand-md" id="navbar_wrap">
+        <div class="container-fluid" >
             <a class="navbar-brand" href="/"><img src="../static/images/coffee-bean.png" alt="coffe bean navbar-toggler-icon"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -86,7 +86,6 @@
     <main class="my_container" >
         {% block main %}{% endblock %}
     </main>
-
     <footer class="small_footer">
         <span style="color: white;">Designed by Pierre Bruyninckx</span>
     </footer>

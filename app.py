@@ -140,8 +140,12 @@ def register():
 @app.route("/")
 @login_required
 def index():
+    id = session.get("user_id")
     #   Redirect user to the overview page
-    return render_template("index.html")
+    #  Also add the data for the charts from the database.
+    chart_data_stock = db.execute("SELECT bean_name, amount FROM mybeans WHERE user_id == ?;", id)
+    print(f"Type: {chart_data_stock}")
+    return render_template("index.html", chart_data_stock = chart_data_stock)
         
 @app.route("/brewing")
 @login_required
@@ -195,7 +199,7 @@ def mybeans():
         retailer = request.form.get("Retailer")
         stock = request.form.get("Stock")
         ## Optional info
-        type = request.form.info("Type")
+        type = request.form.get("Type")
         roast = request.form.get("Roast")
         notes = request.form.get("Notes")
         acidity = request.form.get("Acidity")
