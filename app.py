@@ -13,6 +13,7 @@ from mailconfig import mail_username, mail_password
 
 # Configure application
 app = Flask(__name__)
+app.debug == True
 
 # Configue mail application
 app.config['MAIL_SERVER']='smtp-mail.outlook.com'
@@ -111,7 +112,6 @@ def register():
             flash('Please fill in a valid password')
             return 400
             
-
         elif password != confirmation:
             flash('Passwords do not match')
             return 400
@@ -120,7 +120,6 @@ def register():
         pw_hash = generate_password_hash(password)
 
         #   Add the login details to the user database and redirect to the login page.
-
         db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, pw_hash)
 
         #   Get the id of the user and log the user in.
@@ -129,23 +128,58 @@ def register():
         print("this id", id)
         session["user_id"] = id
 
-        #   Give confirmation to the user that he has been successfully been registered.
+        #   Add a new row to the coffee_use table with user_id set to the new id and other values set to default.
+        today = datetime.date.today()
+        db.execute("INSERT INTO coffee_use VALUES (?, ?, 0, 0, 0, 0, 0, 0, 0, 0);", id, today)
 
+        #   Give confirmation to the user that he has been successfully been registered.
         flash('Registration succesfull!')
         return redirect("/")
         
     else:
         return render_template("register.html")
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
     id = session.get("user_id")
-    #   Redirect user to the overview page
-    #  Also add the data for the charts from the database.
-    chart_data_stock = db.execute("SELECT bean_name, amount FROM mybeans WHERE user_id == ?;", id)
-    print(f"Type: {chart_data_stock}")
-    return render_template("index.html", chart_data_stock = chart_data_stock)
+    if request.method == "POST":
+        #   Get form data
+        cups = int(request.form.get('cups'))
+        bean = request.form.get('bean')
+        dosage = int(request.form.get('dosage'))
+        method = request.form.get('method')
+        today = datetime.date.today()
+
+
+        #   Calculate the amount of coffee ground used
+        coffee_ground = cups * dosage
+
+        #   Insert the data in the coffee use database
+        db.execute("INSERT INTO coffee_use (user_id, date, cups, "+method+", coffee_ground) VALUES (?, ?, ?, 1, ?);",id, today, cups, coffee_ground)
+        # Also diminish the relevant bean stock
+        db.execute("UPDATE mybeans SET amount = amount - ? WHERE user_id == ? AND bean_name == ?;", coffee_ground, id, bean)
+
+        #Redirect to the index page (refresh)
+        flash("Usage added!")
+        return redirect("/")
+
+    else:
+        ##  Charts data
+        #  Fecth the data for the bar chart representing the stock of the different beans
+        chart_data_stock = db.execute("SELECT bean_name, amount FROM mybeans WHERE user_id == ?;", id)
+        #print(f"Type: {chart_data_stock}")
+
+        #   Fetch data for the line chart representing the amount of coffee cups per day
+        line_chart_data = db.execute("SELECT date, SUM(cups) as cups FROM coffee_use WHERE user_id == ? AND date != 'None' GROUP BY date", id)
+        print(f"Line chart data: {line_chart_data}")
+        
+        ##  'Register use' form data
+        #   Fetch all the bean names the user has in its database. Load all these names in the 'add coffee use' option form.
+        name_options = db.execute("SELECT bean_name FROM mybeans WHERE user_id == ?", id)
+        #print(f"Options: {name_options}")
+
+        return render_template("index.html", chart_data_stock = chart_data_stock, name_options = name_options, line_chart_data = line_chart_data)
         
 @app.route("/brewing")
 @login_required
@@ -210,7 +244,6 @@ def mybeans():
         ## Print all the info for verification
         print(f"Name: {name}\nOrigin: {origin}\nRoast date: {roastDate}\nExpiry date: {expiryDate}\nRetailer: {retailer}\nStock: {stock}\nType: {type}\nRoast: {roast}\nNotes: {notes}\nAcidity: {acidity}\nCR Review: {CR_review}\nDescription: {description}\nComments: {comments}\n")
 
-        ##  
         ## Send all the info to the mybeans table in the database.
         db.execute("INSERT into mybeans (user_id, bean_name, origin, roast_date, expiry_date, retailer, amount, type, roasting_level, notes, acidity, CR_review, description, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);", id, name, origin, roastDate, expiryDate, retailer, stock, type, roast, notes, acidity, CR_review, description, comments)
         

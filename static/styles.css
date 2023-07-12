@@ -117,7 +117,7 @@ main{
     top:-120px;
   }
 .popup{
-    margin: 70px auto;
+    margin: 220px auto;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
@@ -180,17 +180,24 @@ main{
 .graphical_content{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     padding: 1rem;
 }
 .graphical_content_item{
-    width: 50vw;
+    margin: 0;
+    width: 50%;
 }
 .index_bar{
-    width: 75%;
+    margin: 0;
 }
+.index_line{
+    margin: 0;
+}
+
 .coffees_input{
     display: block;
+    margin: 20px auto;
 }
 .coffee_input{
     display: flex;
@@ -200,7 +207,7 @@ main{
     grid-template-columns: 4 100px;
     background-color: rgba(250, 235, 215, 0.878);
     border: 2px solid #6F4E37;
-    padding: 5px;
+    padding: 10px;
 }
 .coffee_input input{
     width: 20%; 
