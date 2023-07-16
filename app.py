@@ -1,5 +1,4 @@
 import os
-
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
@@ -130,7 +129,7 @@ def register():
 
         #   Add a new row to the coffee_use table with user_id set to the new id and other values set to default.
         today = datetime.date.today()
-        db.execute("INSERT INTO coffee_use VALUES (?, ?, 0, 0, 0, 0, 0, 0, 0, 0);", id, today)
+        db.execute("INSERT INTO coffee_use VALUES (?, ?, 0, 0, ?, 0, 0, 0, 0, 0, 0);", id, today, None)
 
         #   Give confirmation to the user that he has been successfully been registered.
         flash('Registration succesfull!')
@@ -156,7 +155,7 @@ def index():
         coffee_ground = cups * dosage
 
         #   Insert the data in the coffee use database
-        db.execute("INSERT INTO coffee_use (user_id, date, cups, "+method+", coffee_ground) VALUES (?, ?, ?, 1, ?);",id, today, cups, coffee_ground)
+        db.execute("INSERT INTO coffee_use (user_id, date, cups, bean, "+method+", coffee_ground) VALUES (?, ?, ?, ?, 1, ?);",id, today, cups, bean, coffee_ground)
         # Also diminish the relevant bean stock
         db.execute("UPDATE mybeans SET amount = amount - ? WHERE user_id == ? AND bean_name == ?;", coffee_ground, id, bean)
 
@@ -179,7 +178,22 @@ def index():
         name_options = db.execute("SELECT bean_name FROM mybeans WHERE user_id == ?", id)
         #print(f"Options: {name_options}")
 
-        return render_template("index.html", chart_data_stock = chart_data_stock, name_options = name_options, line_chart_data = line_chart_data)
+        ## Favorites data
+        # Fetch the favorite beans, type of beans and brewing method from the relevant tables in the database.
+        favor_bean_dict= db.execute("SELECT bean FROM (SELECT bean, COUNT(bean) as n FROM coffee_use WHERE user_id == ? AND bean != 'None' GROUP BY bean ORDER BY n DESC LIMIT 1)", id)
+        favor_bean = favor_bean_dict[0]['bean']
+        favor_type_dict = db.execute("SELECT type FROM (SELECT type, COUNT(type) as n FROM mybeans WHERE user_id == ? AND type != 'None' GROUP BY type ORDER BY n DESC LIMIT 1)", id)
+        favor_type = favor_type_dict[0]['type']
+        favor_method_dict = db.execute("SELECT SUM(espresso) as Espresso, SUM(moka) as Moka, SUM(french_press) as French_press, SUM(v60) as V60, SUM(chemex) as Chemex, SUM(siphon) as Siphon FROM coffee_use WHERE user_id = ?", id)
+        #   Loop through the dict to get the highest value
+        m = max(favor_method_dict[0].values())
+
+        favorite_methods = []
+        for key in favor_method_dict[0]:
+            if favor_method_dict[0][key] == m:
+                favorite_methods.append(key)
+        
+        return render_template("index.html", chart_data_stock = chart_data_stock, name_options = name_options, line_chart_data = line_chart_data, favor_bean = favor_bean, favor_type = favor_type, favor_method = favorite_methods)
         
 @app.route("/brewing")
 @login_required

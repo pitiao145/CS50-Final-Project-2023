@@ -1,17 +1,23 @@
 /*Default body styling*/
 .body{
+    display: flex;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    flex-grow: 0;
     background: linear-gradient(#FCF4ED, #fcf4ed6a);
     color: black;
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    box-sizing: content-box;
+    width: 100vw;
 }
 
 /* Navigation bar responsive layout*/
 .my_container{
     display: block;
-    margin: 80px 100px; 
-    }
+    margin: 80px auto;
+}
 #navbar_wrap{
     display: flex;
     position: fixed;
@@ -19,7 +25,7 @@
     top: 0;
     background-color: #FCF4ED;
     justify-items: center;
-    width: 100vw;
+    width: 100%;
     z-index: 1;
 }
 .navigation_items{
@@ -28,12 +34,9 @@
 .navbar-nav li{
     margin: auto 20px;
 }
-
 .nav_list a, button{
-
     float: right;
 }
-
 /*Main section responsive layout*/
 main{
     min-height: 88vh;
@@ -46,6 +49,7 @@ main{
     display: flex;
     justify-content: center;
     margin: auto 0;
+    width: 100%;
 }
 
 /*Login page: hero section*/
@@ -67,12 +71,13 @@ main{
 .header{
     text-align: left;
     padding: 1rem;
-    max-width: 50%;
+    margin: 10px 0;
+    margin: 0 50px;
 }
 .break_line{
-    width: 85vw;
+    width: 100%;
     border-bottom: 1px solid grey;
-    margin-bottom: 10px;
+    margin: 0 10px auto auto;
     justify-self: center;
 }
 .header h1{
@@ -175,18 +180,21 @@ main{
     display: block;
 }*/
 .dashboard{
-    display: block
+    display: block;
+    justify-items: center;
 }
 .graphical_content{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: space-around; 
     align-items: center;
     padding: 1rem;
+    gap: 10px;
 }
 .graphical_content_item{
     margin: 0;
-    width: 50%;
+    width: 45%;
+    box-shadow: 0px 0px 8px 8px rgba(152, 162, 175, 0.11);
 }
 .index_bar{
     margin: 0;
@@ -194,26 +202,57 @@ main{
 .index_line{
     margin: 0;
 }
-
 .coffees_input{
     display: block;
-    margin: 20px auto;
+    margin: 20px 45px;
+    border-radius: 20px;
+}
+.coffees_input:hover{
+    box-shadow: 10px 10px 5px #4545458c;
 }
 .coffee_input{
     display: flex;
-    gap: 5px;
+    gap: 20px;
     justify-content: space-evenly;
     align-items: center;
-    grid-template-columns: 4 100px;
     background-color: rgba(250, 235, 215, 0.878);
     border: 2px solid #6F4E37;
+    border-radius: 20px;
     padding: 10px;
 }
-.coffee_input input{
-    width: 20%; 
+.coffee_input label{
+    text-align: right;
+}
+.coffee_input input, select{
+    width: 5%;
+    height: 5%; 
 }
 .coffee_input select{
     width: 20%; 
+    font-size: smaller;
+}
+.favorites{
+    display: block;
+    width: 100vw;
+}
+.favorites .card{
+    justify-self: center;
+    position: relative;
+    margin: 0 auto;
+    background-color: rgba(250, 235, 215, 0.878);
+    border: 2px solid #6F4E37;
+    border-radius: 20px;
+    width: 33vw;
+    border-collapse: collapse;
+    padding: 1px;
+    text-align: center;
+}
+.favorites .card:hover{
+    box-shadow: 10px 10px 5px #4545458c;
+}
+.card ul li:last-of-type{
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 /*Brewing page*/

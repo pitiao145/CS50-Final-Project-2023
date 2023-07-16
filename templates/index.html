@@ -8,9 +8,9 @@
     <div class="dashboard">
         <div class="header">
             <h1>Dashboard</h1>
+            <div class="break_line"></div>            
             <p>An overview of your stock of beans, the amount of coffees you drank and your favourite brewing methods.</p>
         </div>
-        <div class="break_line"></div>
         <div class="graphical_content">
             <div class="graphical_content_item">
                 <div class="index_bar">
@@ -20,18 +20,18 @@
             <div class="graphical_content_item">
                 <div class="index_line">
                     <canvas id="indexChart2"></canvas>
-                </div>            
+                </div>
             </div>
         </div>
-        <div class="break_line"></div>
         <div class="header">
             <h1>Register coffee use</h1>
+            <div class="break_line"></div>
         </div>
         <div class="coffees_input">
             <form action="/", method="post">
                 <div class="coffee_input">
                     <label for="cups">Number of cups</label>
-                    <input type="number" id="cups" step="1" name="cups">
+                    <input type="number" id="cups" step="1" name="cups" min="1" max="20">
                     <label for="coffee_bean_select">Beans used</label>
                     <select name="bean" id="coffee_bean_select">
                         <option value="/" disabled selected>Choose coffee bean</option>
@@ -39,8 +39,8 @@
                         <option value="{{ row['bean_name'] }}">{{ row['bean_name'] }}</option>
                         {% endfor %}
                     </select>
-                    <label for="dosage">Coffee dose</label>
-                    <input type="number" id="dosage" name="dosage">
+                    <label for="dosage">Coffee dose (g)</label>
+                    <input type="number" id="dosage" name="dosage" min="1" max="100">
                     <label for="method">Method used</label>
                     <select name="method" id="method" name="method">
                         <option value="/" disabled selected>Choose brewing method</option>
@@ -54,6 +54,22 @@
                     <button class="btn btn-secondary" type="submit">Register</button>
                 </div>
             </form>
+        </div>
+        <div class="header">
+            <h1>Favorites</h1>
+            <div class="break_line"></div>
+        </div>
+        <div class="favorites">
+            <div class="card" style="width: 25vw;">
+                <div class="card-header" style="text-align: center;">
+                  <strong>Favorites:</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Beans: <strong>{{ favor_bean }}</strong></li>
+                  <li class="list-group-item">Type of beans: <strong>{{ favor_type }}</strong></li>
+                  <li class="list-group-item">Methods: <strong>{% for row in favor_method %} {{ row }} | {% endfor %}</strong></li>
+                </ul>
+            </div>
         </div>
     </div>
     
@@ -92,7 +108,7 @@
             data: {
                 labels: chart_labels,
                 datasets: [{
-                label: 'Bean stock',
+                label: 'Bean stock (g)',
                 data: chart_stock,
                 backgroundColor: '#6F4E37',
                 borderRadius: 50,
@@ -106,8 +122,34 @@
             options: {
                 indexAxis: 'y',
                 responsive: true,
+                scales:{
+                    x:{
+                        grid: {
+                            display: false
+                        }
+                    }
+                },
+                animations: {
+                    tension: {
+                    duration: 1000,
+                    easing: 'linear',
+                    from: 1,
+                    to: 0,
+                    loop: true
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 15
+                            }
+                        }
+                    }
+
+                }
             }
-            });
+        });
 
         //  Line chart
         let line_data = {{ line_chart_data|tojson() }};
@@ -150,34 +192,37 @@
             options: {
                 responsive: true,
                 plugins: {
-                title: {
-                    display: true,
-                    text: 'Coffee cups consumption history'
-                },
-                },
-                interaction: {
-                intersect: false,
-                },
-                scales: {
-                x: {
-                    display: true,
                     title: {
-                    display: true
+                        display: true,
+                        text: 'Coffee cups consumption history'
                     }
                 },
-                y: {
-                    display: true,
-                    title: {
-                    display: true,
-                    text: 'Value'
+                interaction: {
+                    intersect: false,
                     },
-                    suggestedMin: 0,
-                    suggestedMax: 10
-                }
-                }
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            },
+                        grid: {
+                            display: false
+                            }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                        display: true,
+                        text: 'Value'
                         },
-            });
+                        suggestedMin: 0,
+                        suggestedMax: 10
+                    }
+            }
+        },
+    });
 
-        });
+});
     </script>
 {% endblock %}
