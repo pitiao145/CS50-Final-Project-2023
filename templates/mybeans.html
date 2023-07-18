@@ -6,20 +6,18 @@
 
 {% block main%}
 <div class="beans_container">
-    <div class="heading">
        <div class="header">
             <h1>My beans</h1>
+            <div class="break_line"></div>
             <p>An overview of your stock of beans. You can add all the beans you currently have to the list, in order to have an overview of the different types of beans you own, which rating you gave them etc.</p>
         </div> 
-        <div class="page_nav">
-            
-        </div>
-    </div>
-    <div class="break_line"></div>
     <!--Overview of beans user has added-->
     <section id="beans_table">
         <div class="beans_table_item">
-            <h1>Overview table</h1>
+            <div class="header">
+                <h1>Overview table</h1>
+                <div class="break_line"></div>
+            </div> 
             <table class="table table-striped table-responsive table-hover" id="mybeans">
             <thead>
                 <tr>
@@ -84,14 +82,19 @@
         </table>
         </div>
     </section>
-    <div class="break_line"></div>
     <section class="charts">
         <!--Charts to display stock of beans and amount of each type of bean-->
-        <head><h1>Stock</h1></head>
+        <div class="header">
+            <h1>Stock</h1>
+            <div class="break_line"></div>
+        </div>
         <div class="bar">
             <canvas id="myChart1"></canvas>
         </div>
-        <head><h1>Types and origins</h1></head>
+        <div class="header">
+            <h1>Types and origins</h1>
+            <div class="break_line"></div>
+        </div>
         <div class="pies">
             <div class="pie">
                 <canvas id="myChart2">

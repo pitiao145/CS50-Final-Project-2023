@@ -3,7 +3,7 @@
 <head>
     <!--Metadata-->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 minimum-scale=1">
     <!--Stylesheet-->
     <link rel="stylesheet" href="../static/styles.css">
 
@@ -26,7 +26,7 @@
     <!--Navigation bar, depending on if user is logged in-->
     <nav class="navbar navbar-expand-md" id="navbar_wrap">
         <div class="container-fluid" >
-            <a class="navbar-brand" href="/"><img src="../static/images/coffee-bean.png" alt="coffe bean navbar-toggler-icon"></a>
+            <a class="navbar-brand" id="logo" href="/"><img src="../static/images/coffee-bean.png" alt="coffe bean navbar-toggler-icon"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,7 +55,7 @@
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         My profile
                     </button>
-                    <ul class="dropdown-menu" style="background: #FCF4ED; float: right;">
+                    <ul class="dropdown-menu" style="background: linear-gradient( 90deg, #caa88b, #caa88baa); float: right;">
                         <li><a class="dropdown-item" href="/logout">Logout</a></li>
                         <li><a class="dropdown-item" href="#">Profile setting</a></li>
                         <li><a class="dropdown-item" href="#">Reset password</a></li>
@@ -89,5 +89,18 @@
     <footer class="small_footer">
         <span style="color: white;">Designed by Pierre Bruyninckx</span>
     </footer>
+    <!--Responsive navbar script-->
+    <script>
+        // When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
+        window.onscroll = function() {scrollFunction()};
+        
+        function scrollFunction() {
+          if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+            document.getElementById("navbar_wrap").style.padding = "20px 20px";
+          } else {
+            document.getElementById("navbar_wrap").style.padding = "60px 20px";
+          }
+        }
+        </script>
 </body>
 </html>

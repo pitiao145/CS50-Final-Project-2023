@@ -12,27 +12,62 @@
     box-sizing: content-box;
     width: 100vw;
 }
+.header{
+    padding: 1rem;
+    margin: 10px 70px;
+    min-width: 90%;
+    max-width: 100%;
+}
+.header h1{
+    font-weight: 800;
+}
+.header p{
+    text-align: justify;
+    margin: 10px 0;
+    max-width: 50%;
+    font-size: larger;
+}
 
+.break_line{
+    width: 100%;
+    border-bottom: 1px solid grey;
+    margin: 0 10px auto auto;
+    justify-self: center;
+}
 /* Navigation bar responsive layout*/
 .my_container{
     display: block;
-    margin: 80px auto;
+    margin: 180px 0;
+    width: 100%;
 }
 #navbar_wrap{
+    box-sizing: border-box;
     display: flex;
+    flex-wrap:nowrap;
     position: fixed;
-    padding: 10px 100px;
+    padding: 60px 20px;
     top: 0;
-    background-color: #FCF4ED;
+    background: linear-gradient( 90deg, #caa88b, #caa88baa);
     justify-items: center;
     width: 100%;
-    z-index: 1;
+    z-index: 99;
+    overflow: hidden;
+    transition: 0.4s;
+    font-size: larger;
+    font-weight: 500;
+}
+#logo img{
+    width: 50px;
 }
 .navigation_items{
-    justify-content:right
+    justify-content:right;
+    flex-shrink: 1;
 }
-.navbar-nav li{
-    margin: auto 20px;
+.navbar-nav{
+    gap: 20px;
+}
+.nav_list{
+    float: right;
 }
 .nav_list a, button{
     float: right;
@@ -42,7 +77,13 @@ main{
     min-height: 88vh;
     margin-top: 30px
 }
-
+#navbar_wrap a{
+    border-radius: 10px;
+}
+#navbar_wrap a:hover {
+    background-color: #ddd;
+    color: black;
+  }
 /*Footer section responsive layout*/
 .small_footer{
     background-color: black;
@@ -51,51 +92,40 @@ main{
     margin: auto 0;
     width: 100%;
 }
-
 /*Login page: hero section*/
 .login_hero{
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
+    margin: 50px auto;
+    max-width: 100%;
 }
 .content{
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
     padding: 10px;
     min-width: 25%;
     max-width: 45%;
 }
-.header{
-    text-align: left;
+.log_header{
+    margin: auto;
     padding: 1rem;
-    margin: 10px 0;
-    margin: 0 50px;
+    min-width: 90%;
+    max-width: 100%;
 }
-.break_line{
-    width: 100%;
-    border-bottom: 1px solid grey;
-    margin: 0 10px auto auto;
-    justify-self: center;
-}
-.header h1{
+.log_header h1{
     font-weight: 800;
 }
-.header p{
-   margin: 35px auto;
-
+.log_header p{
+    text-align: justify;
+    margin: 20px 0;
+    font-size: larger;
 }
 .buttons{
     display: inline;
 }
 .buttons button{
     margin: 5px;
-}
-.image{
-    display: flex;
-    justify-content: center;
 }
 .image img{
     width: 100%;
@@ -122,7 +152,7 @@ main{
     top:-120px;
   }
 .popup{
-    margin: 220px auto;
+    margin: 500px auto;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
@@ -176,25 +206,28 @@ main{
     right: 15px;
 }
 /*Dashboard page*/
-/*#dashboard_container{
-    display: block;
-}*/
 .dashboard{
-    display: block;
+    display: flex;
+    flex-direction: column;
     justify-items: center;
+    max-width: 100%;
+    overflow: hidden;
 }
 .graphical_content{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around; 
+    justify-content: space-evenly; 
     align-items: center;
-    padding: 1rem;
-    gap: 10px;
+    margin: 10px 70px;
+    gap: 20px;
+    max-width: 100%;
+    min-width: 90%;
 }
 .graphical_content_item{
     margin: 0;
-    width: 45%;
+    flex-basis: 49%;
     box-shadow: 0px 0px 8px 8px rgba(152, 162, 175, 0.11);
+    max-width: 80%; 
 }
 .index_bar{
     margin: 0;
@@ -202,9 +235,12 @@ main{
 .index_line{
     margin: 0;
 }
+#indexChart1, #indexChart2{
+    margin: 0 5px;
+}
 .coffees_input{
     display: block;
-    margin: 20px 45px;
+    margin: 30px 100px;
     border-radius: 20px;
 }
 .coffees_input:hover{
@@ -212,7 +248,7 @@ main{
 }
 .coffee_input{
     display: flex;
-    gap: 20px;
+    gap: 10px;
     justify-content: space-evenly;
     align-items: center;
     background-color: rgba(250, 235, 215, 0.878);
@@ -221,7 +257,7 @@ main{
     padding: 10px;
 }
 .coffee_input label{
-    text-align: right;
+    text-align: center;
 }
 .coffee_input input, select{
     width: 5%;
@@ -233,19 +269,20 @@ main{
 }
 .favorites{
     display: block;
-    width: 100vw;
+    max-width: 100%;
+    margin: 30px 0px;
 }
 .favorites .card{
     justify-self: center;
-    position: relative;
     margin: 0 auto;
     background-color: rgba(250, 235, 215, 0.878);
     border: 2px solid #6F4E37;
     border-radius: 20px;
-    width: 33vw;
-    border-collapse: collapse;
+    width: 60%;
+    height: max-content;
     padding: 1px;
     text-align: center;
+    font-size: x-large;
 }
 .favorites .card:hover{
     box-shadow: 10px 10px 5px #4545458c;
@@ -254,7 +291,9 @@ main{
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
 }
-
+.card ul li{
+    padding: 30px;
+}
 /*Brewing page*/
 .brewing_container{
     display: flex;
@@ -417,12 +456,7 @@ input {
   /* Beans page*/
 .beans_container{
     display: grid;
-    text-align: center;
     height: fit-content;
-}
-.heading{
-    display: flex;
-    flex-wrap: wrap;
 }
 #beans_table{
     display: flex;
@@ -545,26 +579,49 @@ table{
     .image img{
         width: 400px;
     }
-}
-@media (max-width: 768px){
-    
-    .image img{
-        width: 300px;
+    .favorites .card{
+        width: 75%;
     }
-    .content{
+}
+@media (max-width: 1017px){
+    .login_hero{
+        flex-direction: column;
+    }
+    .content, .image{
         max-width: 75%;
     }
-    .content h1, p{
+}
+@media (max-width: 768px){
+    .header{
         text-align: center;
+    }
+    .header p {
+        text-align: justify;
+        margin: 10px auto;
+        max-width: 75%;
+    }
+    .coffees_input{
+        margin: 10px 100px;
+    }
+    .coffee_input{
+        flex-direction: column;
+        gap: 5px;
+    }
+    .coffee_input input, .coffee_input label, .coffee_input select{
+        width: 75%;
+    }
+    .image img{
+        width: 300px;
     }
     .buttons{
         display: flex;
         justify-content: center;
-    }
-    
+    }  
 }
 @media (max-width: 425px){
-   
+    .coffees_input{
+        margin: 10px 60px;
+    }
     .small_footer{
         font-size: x-small;
     }
