@@ -77,7 +77,7 @@
         </div>
     </nav>
     {% if get_flashed_messages() %}
-    <header style="margin-top: 64px;">
+    <header id="flashed_messages">
         <div class="alert alert-primary mb-0 text-center" role="alert">
             {{ get_flashed_messages() | join(" ") }}
         </div>

@@ -150,14 +150,19 @@ def index():
         method = request.form.get('method')
         today = datetime.date.today()
 
-
         #   Calculate the amount of coffee ground used
         coffee_ground = cups * dosage
 
         #   Insert the data in the coffee use database
         db.execute("INSERT INTO coffee_use (user_id, date, cups, bean, "+method+", coffee_ground) VALUES (?, ?, ?, ?, 1, ?);",id, today, cups, bean, coffee_ground)
         # Also diminish the relevant bean stock
-        db.execute("UPDATE mybeans SET amount = amount - ? WHERE user_id == ? AND bean_name == ?;", coffee_ground, id, bean)
+            # First check if the amount of beans used is not bigger than the amount of beans that was available. If so, set the stock to 0.
+        current_amount_dict = db.execute("SELECT amount FROM mybeans WHERE user_id == ? AND bean_name == ?;", id, bean)
+        current_amount = current_amount_dict[0]['amount']
+        if current_amount - coffee_ground < 0:
+            db.execute("UPDATE mybeans SET amount = 0 WHERE user_id == ? AND bean_name == ?;", id, bean)
+        else:
+            db.execute("UPDATE mybeans SET amount = amount - ? WHERE user_id == ? AND bean_name == ?;", coffee_ground, id, bean)
 
         #Redirect to the index page (refresh)
         flash("Usage added!")
