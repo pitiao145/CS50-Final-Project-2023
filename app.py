@@ -325,3 +325,8 @@ def addstock():
 @login_required
 def reviews():
     return render_template("reviews.html")
+
+@app.route("/espresso")
+@login_required
+def espresso():
+    return render_template("espresso.html")

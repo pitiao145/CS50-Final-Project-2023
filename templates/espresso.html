@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Brewing: Espresso
+{% endblock %}
+
+{% block main%}
+<div class="beans_container">
+    <div class="header">
+        <h1>Espresso</h1>
+        <div class="break_line"></div>
+    </div> 
+    <div class="espresso_content">
+        <h5>What is an espresso, actually?</h5>
+        <p><a href="https://en.wikipedia.org/wiki/Espresso" style="text-decoration: none;">According to wikipedia</a>, Espresso is a coffee-brewing method of Italian origin in which a small amount of nearly boiling water (about 90 °C) is forced under 9–10 bars (900–1,000 kPa) of pressure through finely-ground coffee beans. Espresso can be made with a wide variety of coffee beans and roast degreees. Espresso is the most common way of making coffee in southern Europe, especially in Italy, France, Spain, and Portugal, but it is also popular in the rest of the world.</p>
+        <h5>The perfect espresso shot</h5>
+        <p>There are a few elements that define the quality of an espresso shot. Adjusting these different factors will allow you to play around with the extraction rate and the quality of your espresso.</p>
+        <p>The endpoint is all about the extraction rate. When pulling an espresso shot, you want to get as much flavor out of the coffee ground as possible. The extraction rate can be influenced by the temperature of the water, the amount of coffee, the size of the coffee grounds and the pressure with which the water is forced through the coffee.</p>
+        <p>An espresso shot is defined by:</p>
+        <ul>
+            <li><strong>Water quality:</strong>
+                <p>A typical coffee consists of 98% water, so it is pretty obvious that the quality of the water will greatly influence the quality of your espresso shot! When choosing the water your are going to use for your espresso, you’ll want to keep the following things in mind:</p>
+                <ul>
+                    <li>get water without chlorine in it</li>
+                    <li>minerals</li>
+                    <li>get water witsodium content of about 100 - 200mg</li>
+                    <li>water hardness of 4 - 8 dH</li>
+                    <li>pH between 5.5 and 6.5</li>
+                    <li>iron contents less than 0.5mg/l</li>
+                </ul>
+            </li>
+            <li><strong>Temperature</strong>
+                <p>The higher the temperature of the water, the greater the extraction will be. Playing with the temperature allows us to modify the equilibrium between acidic and bitter flavors. A higher extraction temperature will limit the acidity of the brew. On the contrary, a lower temperature will inhibit the bitterness. The achieve a balanced espresso cup, the ideal temperature of the brewing water should be around 92°C. The actual temperature of the water will be a bit higher as to account for the heat losses during the brewing.</p>
+            </li>
+            <li><strong>Coffee dose and pressure</strong>
+                <p>The pressure is depending on the espresso machine, but is usually constant and lies around 9 bars.</p>
+                <p>For a certain pressure, the amount of coffee grounds used will also determine the extraction rate of the espresso. More coffee grounds means more coffee to be extracted, and therefore will yield a more bitter coffee cup. For 9 bars of pressure, the sweet spot for the amount of coffee for a single espresso shot lies around 9g of coffee. </p>
+            </li>
+            <li><strong>Extraction time:</strong>
+                <p>The amount of time that the brewing water is in contact with the coffee grounds also influences the extraction rate. A longer extraction time means more extraction and therefore a more bitter espresso shot. The standard for an equilibrated coffee cup at 9g and 9 bar of pressure is 25 seconds from the start of the extraction until the last drop of water.</p>
+            </li>
+            <li><strong>Grind size and uniformity:</strong>
+                <p>Probably the most challenging but important aspect of the extraction is the size of the ground coffee grains. For an espresso, you want to use an extra fine ground, similar in size to table salt. The coarser the coffee grounds, the less extraction will happen. It is all about finding the perfect grinding setting in order to get the perfect espresso shot that allows the water to flow at the perfect rate through the coffee grounds. For the same water amount, temperature and pressure, playing with the grain size will yield different extraction times. Too coarse, and the water will flow too fast and result in under-extraction (acidic). Too fine, will result in an over-extraction aka bitterness. Getting that extraction time of about 25s is the ultimate goal!</p>
+                <p>Aside from the actual size of the coffee grounds, the uniformity of it also matters! This is defined by the grinder that is used to grind the coffee beans. A low-quality grinder will cause a wide distribution of coffee grain sizes (particle size distribution, PSD), which in turn will result in an uneven extraction. A true barista knows that, if you were to invest in just one thing, it would be the grinder!</p>
+            </li>
+        </ul>
+        <br>
+        <h3>Step by step guide <span style="font-size: 12px;">(Adapted from <a href="https://www.baristainstitute.com/blog/jori-korhonen/february-2020/9-steps-how-make-perfect-espresso" style="text-decoration: none;" target="_blank">baristainstitute</a>)</span></h3>
+        <div id="carouselExampleIndicators" class="carousel slide">
+            <div class="carousel-indicators" style="margin-bottom: 0;">
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/static/images/porta-clean.png" class="d-block w-100" alt="Porta filter clean">
+                    <p><strong>Step 1: CLEAN YOUR PORTAFILTER</strong></p>
+                    <p>Before dosing the coffee to your portafilter, make sure that the portafilter is clean and tidy. Both moisture and leftover grounds might (and most likely will) make your future espresso taste over-extracted = astringent and bitter.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/images/dose.jpeg" class="d-block w-100" alt="dosing the coffee">
+                    <p><strong>Step 2: DOSE CORRECTLY</strong></p>
+                    <p>This should be pretty easy. With on-demand grinders you just need to push a button with your portafilter or hand and the grinder will dose your pre-set dose. If you want to be a really professional and geeky barista, check your dose on a scale before distributing and tamping. This way you can be quite sure that your extraction will be correct because your dose won’t be too much or little.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/images/tamp.jpeg" class="d-block w-100" alt="spreading coffee">
+                    <p><strong>Step 3: DISTRIBUTE YOUR GROUNDS IN THE PORTAFILTER</strong></p>
+                    <p>Most likely your grinder will dose the grounds to the portafilter’s basket to a mountain or a pyramid shape. This means that you have uneven distribution of the grounds so some parts of the basket will have more coffee and some parts less if you don’t distribute them before tamping. Bad distribution of the grounds might lead to channelling. You can also use distribution tools if you want to get geeky. Distribution tools are really great way to enhance the consistency of your espressos and their extractions.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/images/tamp2.jpeg" class="d-block w-100" alt="tamping coffee">
+                    <p><strong>Step 4: TAMP EVENLY AND CONSISTENTLY</strong></p>
+                    <p>I had my first barista training in 2012 when I was taught that I should tamp with 20 kilos of pressure. After “a few” tamps and several years, I still don’t know how much is 20 kilos of pressure. So let’s kill that popular myth.</p>
+                    <p>So let’s tamp in a more modern way. The aim of tamping is to remove any air pockets in the coffee puck and do this so that the puck is completely leveled. Tamp so long and “hard” that you feel that the puck is compressed (in other words it doesn’t go down anymore). Pay attention that the puck is horizontally leveled so that you avoid channelling and over, under or uneven extraction.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/images/brew.gif" class="d-block w-100" alt="rinsing group">
+                    <p><strong>Step 5: RINSE YOUR GROUP HEAD, INSERT THE PORTAFILTER AND START BREWING IMMEDIATELY</strong></p>
+                    <p>Before inserting the portafilter to the group head, you might want to rinse the group head to remove any old coffee from it. Easy way to keep your espresso machine clean. Rinsing will also make sure that your group head is properly heated and this way you might be able to extract more your coffee.</p>
+                    <p>After rinsing, insert the portafilter to the group head and start brewing IMMEDIATELY! If you don’t start brewing immediately, the heat from the group head might “burn” the surface of your coffee which leads to bitter notes in the cup.</p>
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/images/brew2.jpeg" class="d-block w-100" alt="brewing espresso">
+                    <p><strong>Step 6: BE AWARE OF THE YIELD & BREW TIME</strong></p>
+                    <p>Now you are brewing your espresso. If you are using a volumetric machine, be aware of you brew time. In the case of too short extraction time (under-extraction) or too long extraction time (over-extraction) you might want to make a new espresso and/or check your grind size and dose. If you are using a manual espresso machine, be aware of your yield e.g. if your espresso is running a bit too fast, you are just diluting (making it milder) your espresso and possibly also over-extracting at the same time.</p>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+    </div>
+</div>
+
+
+{% endblock %}

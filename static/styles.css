@@ -320,6 +320,33 @@ main{
     object-fit: cover;
 }
 
+/*Espresso*/
+.espresso_content{
+    padding: 1rem;
+    margin: 10px 70px;
+    max-width: 100%;
+    text-align: justify;
+}
+.espresso_content h3, h5{
+    margin-bottom: 30px !important;
+}
+#carouselExampleIndicators{
+    border-radius: 15px;
+    width: 75%;
+    margin: 0 auto;
+    background-color: #caa88b;
+}
+.carousel-inner{
+    width: 60% !important;
+    margin: 0 auto;
+}
+.carousel-item img{
+    object-fit: cover;
+    padding: 20px;
+    width: 100%;
+    margin: 0 auto;
+    max-height: 50%;
+}
 /*Contact page*/
 .contact_hero{
     display: flex;
@@ -632,7 +659,13 @@ table{
     .buttons{
         display: flex;
         justify-content: center;
-    }  
+    }
+    .espresso_content{
+        margin: 0 auto;
+    } 
+    #carouselExampleIndicators, .carousel-inner{
+        width: 90% !important;
+    } 
 }
 @media (max-width: 425px){
     .coffees_input{
