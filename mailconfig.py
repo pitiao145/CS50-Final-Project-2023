@@ -1,2 +1,2 @@
-mail_username = 'pierre_bruyninckx@hotmail.com'
+mail_username = 'abc@xyz.com'
 mail_password = '********'
