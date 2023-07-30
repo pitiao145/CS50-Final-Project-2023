@@ -241,6 +241,18 @@ main{
 #indexChart1, #indexChart2{
     margin: 0 5px;
 }
+.API_cont{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.API_image img{
+    max-height: fit-content;
+    object-fit: cover;
+    padding: 20px;
+    overflow: none;
+}
 .coffees_input{
     display: block;
     margin: 30px 100px;
@@ -323,14 +335,14 @@ main{
 /*Espresso*/
 .espresso_content{
     padding: 1rem;
-    margin: 10px 70px;
+    margin: 10px calc(10%);
     max-width: 100%;
     text-align: justify;
 }
 .espresso_content h3, h5{
     margin-bottom: 30px !important;
 }
-#carouselExampleIndicators{
+#carouselExampleIndicators, #carouselSoftBrew{
     border-radius: 15px;
     width: 75%;
     margin: 0 auto;
@@ -346,6 +358,35 @@ main{
     width: 100%;
     margin: 0 auto;
     max-height: 50%;
+}
+/*Soft methods*/
+.soft_image_container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+    column-count: 3;
+}
+.soft_image_container img{
+    width: fit-content;
+    max-width: 30%;
+    object-fit: cover;
+    min-width: 35%;
+}
+/*Review page*/
+.review_container{
+    margin: 10px calc(25%);
+}
+#reviews_table{
+    margin: 10px calc(25%);
+    text-align: center;
+}
+#ReviewForm label, legend{
+    margin-top: 10px;
+}
+#no_review{
+    margin: auto auto;
+    text-align: center;
 }
 /*Contact page*/
 .contact_hero{
@@ -493,6 +534,13 @@ input {
     display: grid;
     height: fit-content;
 }
+.no_table{
+    margin: 20px auto;
+    text-align: center;
+}
+.no_table button{
+    float: none;
+}
 #beans_table{
     display: block;
     min-width: 90%;
@@ -611,8 +659,20 @@ table{
 #myChart2, #myChart3{
     margin: 0 auto;
 }
-/*Responsive media queries*/
 
+/*Reset password*/
+.reset_pw{
+    margin: 100px calc(30%);
+}
+.reset_pw .header{
+    text-align: left;
+    margin: 0;
+}
+.reset_pw form{
+    margin-top: 20px;
+    max-width: 100%;
+}
+/*Responsive media queries*/
 @media (min-width: 1025px){
     .image img{
         width: 600px;
@@ -661,7 +721,7 @@ table{
         justify-content: center;
     }
     .espresso_content{
-        margin: 0 auto;
+        margin: 0 calc(5%);
     } 
     #carouselExampleIndicators, .carousel-inner{
         width: 90% !important;

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block title %}
+   Change password
+{% endblock %}
+
+{% block main %}
+<div class="reset_pw">
+    <div class="header">
+       <h1>Reset your password</h1>
+    </div>
+    <div class="break_line"></div>
+    <form action="/reset_pw" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="old_password" name="old_password" placeholder="Old password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="set_new_password" name="set_new_password" placeholder="Set new password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="confirmation_new_password" name="confirmation_new_password" placeholder="Confirm new password" type="password">
+        </div>
+        <button class="btn btn-dark" type="submit">Change password</button>
+    </form>
+</div>
+{% endblock %}

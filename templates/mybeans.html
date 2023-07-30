@@ -12,6 +12,7 @@
         <p>An overview of your stock of beans. You can add all the beans you currently have to the list, in order to have an overview of the different types of beans you own, which rating you gave them etc.</p>
     </div> 
     <!--Overview of beans user has added-->
+    {% if table_empty == "0" %}
     <div id="beans_table">
         <div class="header">
             <h1>Overview table</h1>
@@ -103,7 +104,17 @@
             <canvas id="myChart3">
             </canvas>
         </div>
-    </div>       
+    </div>
+    {% else %}
+    <div class="no_table">
+        <h1>You didn't register any beans yet!</h1>
+        <p>Once you register some beans, all your data will appear here!</p>
+        <p>Register you first beans now!</p>
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#ModalBeanForm">
+            Add my first beans
+        </button>
+    </div>
+    {% endif %}      
 </div>
 <!-- Modal for add bean form-->
 <div class="modal fade" id="ModalBeanForm" tabindex="-1" aria-labelledby="ModalBeanFormLabel" aria-hidden="true">

@@ -1,4 +1,5 @@
 import os
+
 from cs50 import SQL
 from flask import Flask, flash, redirect, render_template, request, session, jsonify
 from flask_session import Session
@@ -7,8 +8,9 @@ import json
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 import datetime
-from helpers import login_required
+from helpers import login_required, get_user_id
 from mailconfig import mail_username, mail_password
+from API_call import get_image
 
 # Configure application
 app = Flask(__name__)
@@ -97,11 +99,11 @@ def register():
         #   Check  the username
         if username == "" or username.isspace() == 1:
             flash('Please fill in a username')
-            return 400
+            return redirect("/register")
 
         elif len(rows) != 0:
             flash('This username is already in use. Please choose another one.')
-            return 400
+            return redirect("/register")
 
         #   Check the password
         password = request.form.get("password")
@@ -109,11 +111,11 @@ def register():
 
         if password == "" or password.isspace() == 1:
             flash('Please fill in a valid password')
-            return 400
+            return redirect("/register")
             
         elif password != confirmation:
             flash('Passwords do not match')
-            return 400
+            return redirect("/register")
 
         #   Hash the password
         pw_hash = generate_password_hash(password)
@@ -141,7 +143,7 @@ def register():
 @app.route("/", methods=["GET", "POST"])
 @login_required
 def index():
-    id = session.get("user_id")
+    id = get_user_id("user_id")
     if request.method == "POST":
         #   Get form data
         cups = int(request.form.get('cups'))
@@ -186,19 +188,28 @@ def index():
         ## Favorites data
         # Fetch the favorite beans, type of beans and brewing method from the relevant tables in the database.
         favor_bean_dict= db.execute("SELECT bean FROM (SELECT bean, COUNT(bean) as n FROM coffee_use WHERE user_id == ? AND bean != 'None' GROUP BY bean ORDER BY n DESC LIMIT 1)", id)
-        favor_bean = favor_bean_dict[0]['bean']
         favor_type_dict = db.execute("SELECT type FROM (SELECT type, COUNT(type) as n FROM mybeans WHERE user_id == ? AND type != 'None' GROUP BY type ORDER BY n DESC LIMIT 1)", id)
-        favor_type = favor_type_dict[0]['type']
         favor_method_dict = db.execute("SELECT SUM(espresso) as Espresso, SUM(moka) as Moka, SUM(french_press) as French_press, SUM(v60) as V60, SUM(chemex) as Chemex, SUM(siphon) as Siphon FROM coffee_use WHERE user_id = ?", id)
-        #   Loop through the dict to get the highest value
-        m = max(favor_method_dict[0].values())
 
-        favorite_methods = []
-        for key in favor_method_dict[0]:
-            if favor_method_dict[0][key] == m:
-                favorite_methods.append(key)
-        
-        return render_template("index.html", chart_data_stock = chart_data_stock, name_options = name_options, line_chart_data = line_chart_data, favor_bean = favor_bean, favor_type = favor_type, favor_method = favorite_methods)
+        if len(favor_bean_dict) == 0 or len(favor_type_dict) == 0 or len(favor_method_dict) == 0:
+            favor_bean = "No beans yet"
+            favor_type = "No beans yet"
+            favorite_methods = ["No beans yet"]
+        else:
+            favor_bean = favor_bean_dict[0]['bean']
+            favor_type = favor_type_dict[0]['type']
+            
+            #   Loop through the dict to get the highest value
+            m = max(favor_method_dict[0].values())
+
+            favorite_methods = []
+            for key in favor_method_dict[0]:
+                if favor_method_dict[0][key] == m:
+                    favorite_methods.append(key)
+
+        # Image API, get a random coffee image
+        new_image = get_image()
+        return render_template("index.html", chart_data_stock = chart_data_stock, name_options = name_options, line_chart_data = line_chart_data, favor_bean = favor_bean, favor_type = favor_type, favor_method = favorite_methods, new_image = new_image)
         
 @app.route("/brewing")
 @login_required
@@ -234,7 +245,7 @@ def contact():
 def mybeans():
     """If user wants to add new beans, add all the required fields to the 'mybeans' table in the database"""
     #   First, get the user id of the user in the current session
-    id = session.get("user_id")
+    id = get_user_id("user_id")
     if request.method == "POST":
         #   Get all the information from the form and perform some checks on the data.
         ## Required info
@@ -277,19 +288,22 @@ def mybeans():
         # Create a list of dictionaries with the fields required for the table on the html page: bean name, origin, roast date, expiry date, retailer, and the amount in stock.+
         table_data = db.execute("SELECT bean_name, type, origin, roast_date, expiry_date, retailer, amount FROM mybeans WHERE user_id == ? GROUP BY bean_name", id)
         # print(table_data)
-
+        if len(table_data) == 0:
+            table_empty = "1"
+        else:
+            table_empty = "0"
         #  Also add the data for the charts from the database.
         chart_data_type = db.execute("SELECT type, COUNT(type) as n FROM mybeans WHERE user_id == ? GROUP BY type;", id)
         chart_data_origin = db.execute("SELECT origin, COUNT(type) as n FROM mybeans WHERE user_id == ? GROUP BY origin;", id)
         print(f"Type: {chart_data_type}")
         print(f"Origin: {chart_data_origin}")
-        return render_template("mybeans.html", beans_data = table_data, chart_data_type = chart_data_type, chart_data_origin = chart_data_origin)
+        return render_template("mybeans.html", beans_data = table_data, chart_data_type = chart_data_type, chart_data_origin = chart_data_origin, table_empty = table_empty)
 
 @app.route("/ajaxfile", methods=["GET", "POST"])
 @login_required
 def ajaxfile():
     #   Get id of the user in the current session
-    id = session.get("user_id")
+    id = get_user_id("user_id")
     #   If a request is made to get detailed information, gather all the required info from the selected bean
     if request.method == "POST":
         detailedBeanName = request.form.get("name")
@@ -304,7 +318,7 @@ def ajaxfile():
 @app.route("/addstock", methods=["GET", "POST"])
 @login_required
 def addstock():
-    id = session.get("user_id")
+    id = get_user_id("user_id")
     if request.method == "POST":
         #   Get data from form
         target_bean = request.form.get("BeanName")
@@ -321,12 +335,100 @@ def addstock():
     else:
         return redirect("/mybeans")
 
-@app.route("/reviews")
+@app.route("/reviews", methods=["GET", "POST"])
 @login_required
 def reviews():
-    return render_template("reviews.html")
+    id = get_user_id("user_id")
+    if request.method == "POST":
+        # Get the data from the form
+        bean = request.form.get("Bean")
+
+        ##  Check that this bean isn't in the reviews table yet
+        name_check = db.execute("SELECT * FROM reviews WHERE user_id == ? AND bean == ?", id, bean)
+        if len(name_check) != 0:
+            flash("This coffee bean has already been reviewed")
+            return redirect("/reviews")
+
+        aroma = request.form.get("Aroma")
+        acidity = request.form.get("Acidity")
+        sweetness = request.form.get("Sweetness")
+        body = request.form.get("Body")
+        flavor = request.form.get("Flavor")
+        overall = request.form.get("Overall")
+        review_comments = request.form.get("Review_comments")
+
+        ## Print all the info for verification
+        print(f"Name: {bean}\nAroma: {aroma}\nAcidity: {acidity}\nSweetness: {sweetness}\nBody: {body}\nFlavor: {flavor}\nOverall: {overall}\nComments: {review_comments}")
+
+        ## Send all the info to the mybeans table in the database.
+        db.execute("INSERT into reviews (user_id, bean, aroma, acidity, sweetness, body, flavor, overall, comments) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);", id, bean, aroma, acidity, sweetness, body, flavor, overall, review_comments)
+        return redirect("/reviews")
+
+
+
+    else:
+        #   Fetch all the bean names the user has in its database. Load all these names in the form.
+        name_options = db.execute("SELECT bean_name FROM mybeans WHERE user_id == ?", id)
+        #print(f"Options: {name_options}")
+
+        # Fetch the data to be displayed in the reviews table for this users
+        review_data = db.execute("SELECT * FROM reviews WHERE user_id == ?;", id)
+        if len(review_data) == 0:
+            empty = "yes"
+        else:
+            empty = "no"
+
+        return render_template("reviews.html", name_options = name_options, review_data = review_data, empty = empty)
 
 @app.route("/espresso")
 @login_required
 def espresso():
     return render_template("espresso.html")
+
+@app.route("/soft_methods")
+@login_required
+def soft_methods():
+    return render_template("soft_methods.html")
+
+@app.route("/reset_pw", methods=["GET", "POST"])
+@login_required
+def reset_pw():
+    if request.method == "POST":
+        id = get_user_id("user_id")
+        old_password = request.form.get("old_password")
+        new_password = request.form.get("set_new_password")
+        new_password_confirmation = request.form.get("confirmation_new_password")
+        db_password = db.execute("SELECT hash FROM users WHERE id == ?;", id)
+        #   Check  the old password
+        if check_password_hash(db_password[0]["hash"], old_password):
+            #   Check if the new passwords match and are allowed
+            if new_password == "" or new_password.isspace() == 1:
+                flash("Please fill in a valid password")
+                return redirect("/reset_pw")
+
+            elif new_password != new_password_confirmation:
+                flash("Passwords do not match")
+                return redirect("/reset_pw")
+
+            elif new_password == old_password:
+                flash("New password has to be different.")
+                return redirect("/reset_pw")
+
+            #   Hash the password
+            pw_hash = generate_password_hash(new_password)
+
+            #   Add the new password to the user database and redirect to the home page.
+            db.execute("UPDATE users SET hash = ? WHERE id == ?;", pw_hash, id)
+
+            #   Give confirmation to the user that the password wass changed and redirect to homepage.
+            flash('Password changed succesfully!')
+            return redirect("/reset_pw")
+
+        else:
+            flash("Wrong password")
+            return redirect("/reset_pw")
+
+
+
+    else:
+        return render_template("reset_pw.html")

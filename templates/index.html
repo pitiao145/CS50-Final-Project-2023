@@ -27,11 +27,17 @@
                 </div>
             </div>
         </div>
-        <div class="header">
-            <h1>Register coffee use</h1>
-            <div class="break_line"></div>
-            <p>In this form, you can register your coffee use, so you can keep track of your stock of beans, the amount of coffees you drink during a given time period and what your favorite beans and brewing methods are.</p>
-            <p>Just fill in the relevant information and register the use, and see how the other information will update!</p>
+        <div class="API_cont">
+            <div class="header" style="margin: 0; min-width: 0; max-width: 50%;">
+                <h1>Register coffee use</h1>
+                <div class="break_line"></div>
+                <p>In this form, you can register your coffee use, so you can keep track of your stock of beans, the amount of coffees you drink during a given time period and what your favorite beans and brewing methods are.</p>
+                <p>Just fill in the relevant information and register the use, and see how the other information will update!</p>
+                <p>To accomany you in your daily coffee cup registration, here's a random coffee cup image, fetched from the  <a href="https://coffee.alexflipnote.dev/">☕ Coffee API</a></p>
+            </div>
+            <div class="API_image">
+                <img src="{{ new_image }}" alt="Random coffee cup image">
+            </div>
         </div>
         <div class="coffees_input">
             <form action="/", method="post">
