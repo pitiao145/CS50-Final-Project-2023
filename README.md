@@ -76,7 +76,7 @@ Here the user has the option to log out or to change their password.
 
   * The static folder contains all the static files: images, javascript files and CSS files.
   * _main.js_
-  Contains some JS functions, used in HTML pages. One function gets the name of the available beans in the my beans table. The other function assigns the names of the beans to the different <select> <option> tags in the different forms across the web pages.
+  Contains some JS functions, used in HTML pages. One function gets the name of the available beans in the my beans table. The other function assigns the names of the beans to the different `<select> <option>` tags in the different forms across the web pages.
   * _charts.js_
   This script is used to render the  different charts on the pages. It fetches the data, which has been selected in the _app.py_ file using db queries, converts it to a json file, which is then used to populate the charts.
   *  The _templates_ folder contains all the HTML documents used to render the web page. Since this was built using the Flask framework, the folders contain a layout.html that renders the basic layout of the web application. All the other pages extend this layout, using the jinja2 language.
@@ -88,12 +88,12 @@ Here the user has the option to log out or to change their password.
 ### Database
 The database for this project contains 4 tables: users, coffee_use, mybeans and reviews.
 *  _users_ 
-In this table the different users and their hashed passwords are stored
+In this table, the different users and their hashed passwords are stored
 *  _coffee use_
 This table stores data for every user about the amount of coffees registered and when they were registered, the amount of coffee grounds used, how many times each brewing method was used
 *  _my beans_
 This table contains the data about the beans for each user: name, roast date, expiry date, origin, retailer, stock, bean type, roasting level, notes, acidity, official CR review, description and comments
-*  _rviews_
+*  _reviews_
 This contains the reviews the user adds from the review page.
 
 
