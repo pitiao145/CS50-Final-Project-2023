@@ -16,7 +16,7 @@ from API_call import get_image
 app = Flask(__name__)
 app.debug == True
 
-# Configue mail application
+# Configure mail application
 app.config['MAIL_SERVER']='smtp-mail.outlook.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USERNAME'] = mail_username
