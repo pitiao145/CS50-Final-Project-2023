@@ -1,6 +1,5 @@
 # Mybeans: a coffee web app for coffee fanatics
 #### Video Demo:
-![ezgif com-optimize](https://github.com/pitiao145/CS50-Final-Project-2023/assets/133644618/8b3d5c44-bb91-4676-90fe-f4de9e23f19f)
 
 ![ezgif com-optimize](https://github.com/pitiao145/CS50-Final-Project-2023/blob/main/static/readmeImages/webappdemoGIF.gif)
 
