@@ -64,7 +64,7 @@ This page contains information about some popular brewing methods, for the user'
 
 ##### Contact page
 
-<img width="1680" alt="contact" src="https://github.com/pitiao145/CS50-Final-Project-2023/blob/main/static/readmeImages/webappimage7.png">
+
 
 Here's a contact form, to contact me in case of any questions. Filling in the form and submitting it will send this form to my email address.
 
